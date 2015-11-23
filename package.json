@@ -1,0 +1,36 @@
+{
+    "name": "vcr",
+    "version": "1.0.0",
+    "description": "Youtube, HTML5 and Vimeo Wrapper",
+    "main": "./index.js",
+    "dependencies": {
+        "generator-node": "^1.7.0"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pcanella/vcr"
+    },
+    "keywords": [
+        "VCR",
+        "youtube",
+        "vimeo",
+        "HTML5",
+        "video",
+        "player"
+    ],
+    "author": "Patrick Canella",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/pcanella/vcr/issues"
+    },
+
+    "devDependencies": {
+        "browserify": "11.0.0",
+        "queso": "*"
+    },
+    "homepage": "https://github.com/pcanella/vcr"
+}
