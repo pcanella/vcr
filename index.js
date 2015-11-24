@@ -1,68 +1,105 @@
-/**
- * Escape special characters in the given string of html.
- *
- * @param  {String} html
- * @return {String}
- */
+ /* global document, window */
+ 'use strict';
 
-'use strict';
-var vcr = function() {
+ var vcr = function(url, element, options) {
+     this.set(url, element, options);
+ };
 
-};
+ vcr.prototype = {
 
-vcr.prototype = {
+     vimeo: require('./lib/vimeo'),
 
-    vimeo: require('./lib/vimeo'),
+     youtube: require('./lib/yt'),
 
-    youtube: require('./lib/yt'),
+     parser: require('./lib/parser'),
 
-    parser: require('./lib/parser'),
+     parsedData: null,
 
-    parsedData: null,
+     videoType: null,
 
-    videoType: null,
+     setVideoType: function() {
+         return (this.parsedData !== undefined) ? this[this.parsedData.type] : '';
+     },
 
-    setVideoType: function() {
-        return (this.parsedData !== undefined) ? this[this.parsedData.type]: ''
-    },
+     player: null,
 
-    set: function(url, element, options) {
-        var opts = (options) ? this.setOptions(options) : '';
-        // First we'll parse the data properly, then see if it's a youtube/ vimeo/html5 video. 
-        this.parsedData = this.parser.parse(url);
-        this.videoType = this.setVideoType();
+     set: function(url, element, options) {
+         var playerParams = (options && options.parameters) ? this.setOptions(options.parameters) : '';
+         // First we'll parse the data properly, then see if it's a youtube/ vimeo/html5 video. 
+         this.parsedData = this.parser.parse(url);
+         this.videoType = this.setVideoType();
+         this.player = document.getElementById(element);
 
-        var type = this.videoType,
-            id = this.parsedData.id;
+         var type = this.videoType,
+             id = this.parsedData.id;
 
-        if (type !== '') {
-            this.videoType.setPlayer(id, element, opts);
-        }
-    },
+         if (type !== '') {
+             this.videoType.setPlayer(id, element, playerParams);
+         }
+     },
 
-    setOptions: function(params) {
-        var queso = require('queso');
-        return queso.stringify(params, true);
-    },
+     setOptions: function(params) {
+         var queso = require('queso');
+         return queso.stringify(params, true);
+     },
 
-    play: function() {
-        this.videoType.play();
-    },
+     play: function() {
+         this.videoType.play();
+     },
 
-    pause: function() {
-        this.videoType.pause();
-    },
+     pause: function() {
+         this.videoType.pause();
+     },
 
-    seek: function(duration) {
-        this.videoType.seek(duration);
-    },
+     seek: function(duration) {
+         this.videoType.seek(duration);
+     },
 
-    volume: function(value) {
-        this.videoType.setVolume(value);
-    }
-};
+     volume: function(value) {
+         this.videoType.setVolume(value);
+     },
 
-window.vcr = vcr;
+     currentTime: function() {
+         return this.videoType.getCurrentTime();
+     },
+
+     duration: function() {
+         return this.videoType.getDuration();
+     },
+
+     mute: function() {
+         this.volume(0);
+     },
+
+     stop: function() {
+         var self = this;
+         self.videoType.stop();
+     }
+
+     // TODO: Implement this at some other time
+     // rewind: function(value){},
+
+     // fastForward: function(value) {
+     //     var self = this;
+
+     //     this.pause();
+
+     //     this.currentTime();
+
+     //     document.addEventListener('vcr:getCurrentTime', function(event) {
+     //         self.seek(event.detail.time + value);
+     //     });
+
+     //     // document.addEventListener('vcr:fastForward', function(e) {
+     //     //     console.log(e.detail);
+     //     // });
+     //     //});
+     //     // In second
+
+     // }
+ };
+
+ window.vcr = vcr;
 
 
-module.exports = vcr;
+ module.exports = vcr;
