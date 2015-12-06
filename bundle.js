@@ -1,45 +1,264 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/**
- * Escape special characters in the given string of html.
- *
- * @param  {String} html
- * @return {String}
- */
+ /* global document, window, CustomEvent */
+ 'use strict';
 
-var yt = require('./lib/yt'),
-    vimeo = require('./lib/vimeo'),
-    parser = require('./lib/parser'),
-    vcr;
+ var vcr = function(config, options) {
+     this.set(config, options);
+ };
 
-// (function() {
+ vcr.prototype = {
 
-//     vcr = {
-//         set: function(url) {
-//             // First we'll parse the data properly, then see if it's a youtube/ vimeo/html5 video. 
-//             parser.parse(url);
-//         }
+     vimeo: require('./lib/vimeo'),
 
-//     };
+     youtube: require('./lib/yt'),
 
-// }());
+     parser: require('./lib/parser'),
 
-function vcr() {
-    console.log('waiting for the VCR to turn on...');
-}
+     parsedData: null,
 
-vcr.prototype = {
-    set: function(url) {
-        // First we'll parse the data properly, then see if it's a youtube/ vimeo/html5 video. 
-        parser.parse(url);
-    }
+     videoType: null,
 
-};
+     el: null,
 
-window.vcr = vcr;
+     videoInstance: '',
 
-module.exports = vcr;
-},{"./lib/parser":2,"./lib/vimeo":3,"./lib/yt":4}],2:[function(require,module,exports){
+     setVideoType: function() {
+         if (this.parsedData !== undefined) {
+             this.videoInstance = (this.parsedData.type === 'vimeo') ? new this.vimeo() : (this.parsedData.type === 'youtube') ? new this.youtube() : '';
+         }
+
+         return this.videoInstance;
+     },
+
+     player: null,
+
+     setListeners: function() {
+
+     },
+
+     set: function(config, options) {
+         var url, element;
+
+         // if it's an object, then we know it doesn't have 
+         if (config instanceof Object) {
+             // If an element is given, then keep it, otherwise make up a vcr name and create the element!
+             element = (config.el) ? config.el : 'vcrPlayer' + Math.floor(Math.random() * 6000) + 1;
+             url = (config.url) ? config.url : '';
+             if (element && config.url && document.querySelector('#' + config.el) === null) {
+                 this.whereToPut(element, config);
+             } else if (element && !config.url) {
+                 element = config.el;
+                 url = document.getElementById(element).src;
+             } else {
+                 console.error('Hmm, I don\'t think you added an element id or url...');
+             }
+             this.el = element;
+
+             // If the user inputted a URL, that means we want to create an iframe, otherwise, config is just an element ID that we can use
+         } else {
+             element = config;
+             url = document.getElementById(element).src;
+             this.el = element;
+         }
+
+         var self = this,
+             playerParams = (options && options.parameters) ? options.parameters : {};
+
+         // First we'll parse the data properly, then see if it's a youtube/ vimeo/html5 video. 
+         this.parsedData = this.parser.parse(url);
+
+         this.videoType = this.setVideoType();
+
+         var type = this.videoType,
+             id = this.parsedData.id;
+
+         if (options && options.autoplay) {
+             playerParams.autoplay = 1;
+         }
+         if (type !== '') {
+
+             this.player = document.getElementById(this.el);
+             // Initial viewport check
+
+             this.player.addEventListener('vcr:ready', function() {
+                 console.log('video ready!');
+                 if (options && options.scrollStop) {
+                     self.throttleVideo();
+                     var throttler = self.debounce(self.throttleVideo, 250);
+                     window.addEventListener('scroll', throttler);
+                 }
+             });
+             playerParams = this.setOptions(playerParams);
+
+             this.videoType.setPlayer(id, element, playerParams);
+         }
+     },
+
+     whereToPut: function(el, config) {
+
+         var c = config,
+             // Create a new iframe!
+             frame = document.createElement('iframe');
+         
+         frame.id = el;
+         frame = frame.outerHTML;
+         // Probably could be refactored somehow. Suggestions welcome!
+         if (c.insertBefore) {
+             document.querySelector(c.insertBefore).insertAdjacentHTML('beforebegin', frame);
+         } else if (c.insertAfter) {
+             document.querySelector(c.insertAfter).insertAdjacentHTML('afterEnd', frame);
+         } else if (c.appendTo) {
+             document.querySelector(c.appendTo).insertAdjacentHTML('beforeend', frame);
+         } else if (c.prependTo) {
+             document.querySelector(c.prependTo).insertAdjacentHTML('afterbegin', frame);
+         } else {
+             document.body.insertAdjacentHTML('afterbegin', frame);
+         }
+     },
+
+     setOptions: function(params) {
+         var queso = require('queso');
+         return queso.stringify(params, true);
+     },
+
+     play: function() {
+         var e = new CustomEvent('vcr:play');
+         document.getElementById(this.el).dispatchEvent(e);
+         this.videoType.play();
+     },
+
+     pause: function() {
+         this.videoType.pause();
+     },
+
+     seek: function(duration) {
+         this.videoType.seek(duration);
+     },
+
+     volume: function(value) {
+         this.videoType.setVolume(value);
+     },
+
+     currentTime: function() {
+         return this.videoType.getCurrentTime();
+     },
+
+     duration: function() {
+         return this.videoType.getDuration();
+     },
+
+     mute: function() {
+         this.volume(0);
+     },
+
+     stop: function() {
+         var self = this;
+         self.videoType.stop();
+     },
+
+     // MIGHT PUT IN SEPARATE UTIL FOLDER
+
+     throttleVideo: function() {
+         if (this.withinViewport(this.el) === false) {
+             this.pause();
+         } else {
+             this.play();
+         }
+
+     },
+
+     debounce: function(func, wait, immediate) {
+         var timeout, context = this;
+         return function() {
+             var args = arguments;
+             var later = function() {
+                 timeout = null;
+                 if (!immediate) {
+                     func.apply(context, args);
+                 }
+             };
+             var callNow = immediate && !timeout;
+             clearTimeout(timeout);
+             timeout = setTimeout(later, wait);
+             if (callNow) {
+                 func.apply(context, args);
+             }
+         };
+     },
+
+     // TODO: FIX THIS FOR SMALLER SCREENS
+     withinViewport: function(el) {
+         var element = document.getElementById(el),
+             rect = element.getBoundingClientRect(),
+             oneThird = element.offsetHeight / 3,
+             leftover = window.innerHeight - rect.top;
+         console.log('el:', el, 'top:', rect.top, 'bottom:', rect.bottom);
+         return (rect.top > 0 && leftover > (element.offsetHeight / 2) || (rect.top < (element.offsetHeight - oneThird) && rect.bottom >= oneThird));
+     }
+
+     // TODO: Implement this at some other time
+     // rewind: function(value){},
+
+     // fastForward: function(value) {
+     //     var self = this;
+
+     //     this.pause();
+
+     //     this.currentTime();
+
+     //     document.addEventListener('vcr:getCurrentTime', function(event) {
+     //         self.seek(event.detail.time + value);
+     //     });
+
+     //     // document.addEventListener('vcr:fastForward', function(e) {
+     //     //     console.log(e.detail);
+     //     // });
+     //     //});
+     //     // In second
+
+     // }
+ };
+
+ window.vcr = vcr;
+
+
+ module.exports = vcr;
+
+},{"./lib/parser":2,"./lib/vimeo":3,"./lib/yt":4,"queso":5}],2:[function(require,module,exports){
 'use strict';
+var queso = require('queso'),
+ytParams = [
+'autohide',
+'autoplay',
+'cc_load_policy',
+'color',
+'controls',
+'disablekb',
+'enablejsapi',
+'end',
+'fs',
+'h1',
+'iv_load_policy',
+'list',
+'listType',
+'loop',
+'modestbranding',
+'origin',
+'playerapiid',
+'playsinline',
+'rel',
+'showinfo',
+'start',
+'theme' ],
+vimParams = ['autoplay',
+'autopause',
+'badge',
+'byline',
+'color',
+'loop',
+'player_id',
+'portrait',
+'title'];
 
 var parser = {
 
@@ -78,18 +297,28 @@ var parser = {
             console.log('url is not valid');
         }
     }
+
 };
 
 module.exports = parser;
-},{}],3:[function(require,module,exports){
- /* global document */
+},{"queso":5}],3:[function(require,module,exports){
+ /* global document, CustomEvent, window */
  'use strict';
 
- module.exports = {
+ var vimeo = function() {},
+     addedListeners = false;
 
-     player: '',
+ vimeo.prototype = {
 
-     iframe_id: '',
+     playerId: '',
+
+     iframeId: '',
+
+     state: null,
+
+     ready: false,
+
+     listenersAdded: false,
 
      play: function() {
          this.post('play');
@@ -100,24 +329,95 @@ module.exports = parser;
      },
 
      seek: function(timeInVideo) {
-         this.post('seek', timeInVideo);
+         this.post('seekTo', timeInVideo);
      },
 
-     setPlayer: function(videoId, iframe_id) {
-         var iframe = document.getElementById(iframe_id);
-         iframe.src = this.setURL(videoId);
+     stop: function() {
+         this.post('unload');
+     },
 
+     setVolume: function(value) {
+         // This is some weird bug I reported to vimeo. More Here:
+         // https://vimeo.com/forums/api/topic:278411
+         var time = (value <= 0) ? 0 : value,
+             actualValue = time / 100;
+         this.post('setVolume', actualValue.toString());
+     },
+
+     getDuration: function() {
+         return this.post('getDuration', '');
+     },
+
+     getCurrentTime: function() {
+         var self = this;
+         // TODO: Add a better solution than a setTimeout for this. Seconds matter in video.
+         setTimeout(function() {
+             self.post('getCurrentTime', '');
+         }, 500);
+     },
+
+     addAllListeners: function() {
+         // Don't need these yet: 'loadProgress', 'playProgress'
+         var vEvents = ['play', 'pause', 'finish', 'seek'];
+
+         for (var i = 0; i < vEvents.length; i++) {
+             this.post('addEventListener', vEvents[i]);
+         }
+
+         this.listenersAdded = true;
+     },
+
+     onMessageReceived: function(event, instance) {
+         var stuff = JSON.parse(event.data),
+             eEvent;
+         this.state = stuff.event;
+         this.ready = true;
+         if (stuff.event === 'ready') {
+             this.addAllListeners();
+             eEvent = new CustomEvent('vcr:ready', {
+                 detail: {
+                     instance: instance
+                 }
+             });
+
+             // setting a timeout here to make SURE the video is loaded because vimeo's API can be finicky/buggy
+             setTimeout(function() {
+                 document.getElementById(stuff.player_id).dispatchEvent(eEvent);
+             }, 1000);
+
+             this.listenersAdded = true;
+         }
+         if (stuff && stuff.method === 'getCurrentTime') {
+             eEvent = new CustomEvent('vcr:getCurrentTime', {
+                 detail: {
+                     time: stuff.value
+                 }
+             });
+             document.dispatchEvent(eEvent);
+         }
+     },
+
+     setPlayer: function(videoId, iframe_id, options) {
+         var iframe = document.getElementById(iframe_id),
+             self = this;
          // Set things!
          this.iframeId = '#' + iframe_id;
          this.playerId = iframe_id;
-     },
 
+         iframe.src = this.setURL(videoId, options);
 
-     addEventListeners: function() {
-         this.post('addEventListener', 'play');
-         this.post('addEventListener', 'pause');
-         this.post('addEventListener', 'finish');
-         this.post('addEventListener', 'seek');
+         // We only want to declare this once ever.
+         if (window.addEventListener && addedListeners === false) {
+             window.addEventListener('message', function(event) {
+                var p = JSON.parse(event.data);
+                if (p.event === 'play'){
+                    debugger;
+                }
+                 self.onMessageReceived.call(self, event);
+             }, false);
+             addedListeners = true;
+         }
+
      },
 
      post: function(action, value) {
@@ -127,7 +427,7 @@ module.exports = parser;
              $player = document.querySelector(this.iframeId);
 
          if (value) {
-             data.value = value;
+             data.value = value.toString();
          }
          var url = $player.src,
              message = JSON.stringify(data);
@@ -135,20 +435,24 @@ module.exports = parser;
          document.getElementById(this.playerId).contentWindow.postMessage(message, url);
      },
 
-     setURL: function(videoId) {
-         var videoUrl = '//player.vimeo.com/video/' + videoId + '?byline=0&portrait=0&title=0&autoplay=0&badge=0&api=1&player_id=' + this.playerId;
+     setURL: function(videoId, options) {
+         var videoUrl = 'https://player.vimeo.com/video/' + videoId + '?api=1&player_id=' + this.playerId + options;
          return videoUrl;
      }
- }
+ };
+
+ module.exports = vimeo;
+
 },{}],4:[function(require,module,exports){
 // demo: http://jsfiddle.net/x0nvpbgs/
-
-/* global document, YT */
+/* global document, YT, CustomEvent, window */
 'use strict';
 
-module.exports = {
+var youtube = function() {};
 
-    player: null,
+youtube.prototype = {
+
+    player: '',
 
     ready: false,
 
@@ -157,46 +461,63 @@ module.exports = {
     playerId: '',
 
     play: function() {
-        if (this.player) {
-            this.player.playVideo();
-        }
+        this.player.playVideo();
     },
 
     pause: function() {
-        if (this.player) {
-            this.player.pauseVideo();
-        }
+        this.player.pauseVideo();
     },
 
     seek: function(timeInVideo) {
-        if (this.player) {
-            this.player.seekTo(timeInVideo);
-        }
+        this.player.seekTo(timeInVideo);
     },
 
-    setPlayer: function(videoId, iframe_id) {
+    stop: function() {
+        this.player.stopVideo();
+    },
+
+    setVolume: function(value) {
+        this.player.setVolume(value);
+    },
+
+    getCurrentTime: function() {
+        return this.player.getCurrentTime();
+    },
+
+    setPlayer: function(videoId, iframe_id, options) {
         // First we add the API
         this.addAPI();
         // Then we get the proper URL
-        var url = this.setURL(videoId, iframe_id),
+        var url = this.setURL(videoId, iframe_id, options),
             iframe = document.querySelector('#' + iframe_id);
         iframe.src = url;
     },
 
-    onPlayerReady: function(event) {
-        var eEvent = new CustomEvent('media:videoReady');
-
-        youtube.ready = true;
-        youtube.player = event.target;
-
-        document.dispatchEvent(eEvent);
+    setInstance: function() {
+        var self = this;
+        document.addEventListener('vcr:ytReady', function(e) {
+            self.player = e.detail.instance;
+        });
     },
 
-    onReady: function(playerId, vId) {
-        var self = this;
+    onPlayerReady: function(event) {
+        var eEvent = new CustomEvent('vcr:ready'),
+            yEvent = new CustomEvent('vcr:ytReady', {
+                detail: {
+                    instance: event.target
+                }
+            });
+        document.dispatchEvent(yEvent);
+        document.getElementById(event.target.h.h.instance).dispatchEvent(eEvent);
+    },
 
-        new YT.Player('testPlayer', {
+
+
+    onReady: function(vId) {
+        var self = this;
+        this.player = new YT.Player(this.playerId, {
             'videoId': vId,
+            'instance': this.playerId,
             events: {
                 'onReady': self.onPlayerReady
             }
@@ -220,25 +541,53 @@ module.exports = {
 
     },
 
-    setURL: function(videoID, iframe_id) {
+    setURL: function(videoID, iframe_id, options) {
         var self = this,
-            playerId,
             videoUrl;
 
         this.iframeId = '#' + iframe_id;
         this.playerId = iframe_id;
 
+        document.addEventListener('vcr:ytLoaded', function() {
+            self.onReady(videoID);
+        });
+
         window.onYouTubeIframeAPIReady = function() {
-            self.onReady(self.playerId, videoID);
+            // YT only does this once, but we want to make sure we get ALL our videos loaded properly.
+            var eEvent = new CustomEvent('vcr:ytLoaded');
+            document.dispatchEvent(eEvent);
         };
         // NOTE: This can cause a mismatch of protocols; to be safe, you
         // should just implement HTTPS on your site because youtube will do
         // this on their embedded videos by default. Also HTTPS should be on
         // your site anyway..
 
-        videoUrl = '//www.youtube.com/embed/' + videoID + '?enablejsapi=1&color=white&modestbranding=1&playerapiid=' + playerId + '&rel=0&wmode=opaque';
-
+        videoUrl = '//www.youtube.com/embed/' + videoID + '?enablejsapi=1&playerapiid=' + this.playerId + options;
         return videoUrl;
     }
 };
+
+module.exports = youtube;
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+function stringify (query, amp) {
+  return Object.keys(query).reduce(pairs, '');
+  function pairs (q, key) {
+    var prefix = amp !== true && q.length === 0 ? '?' : '&';
+    var left = q + prefix + key;
+    var value = query[key];
+    if (value === true) {
+      return left;
+    }
+    var encoded = encodeURIComponent(value);
+    return left + '=' + encoded;
+  }
+}
+
+module.exports = {
+  stringify: stringify
+};
+
 },{}]},{},[1]);
