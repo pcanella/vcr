@@ -2,21 +2,11 @@
 
 var test = require('tape');
 var vcr = require('../index');
-
-test('timing test', function(t) {
-    t.plan(1);
-
-
-    var p = document.createElement('iframe');
-    p.src = 'http://google.com/';
-
-    t.equal(p.src, 'http://google.com/');
-    t.end();
-});
-
+var coverify = require('coverify')
+var parse = require('coverify/parse')
 
 test('add a vimeo video and append it to the "test" class div. Also, play it!', function(t) {
-    t.plan(2);
+    t.plan(1);
 
     var div = document.createElement('div');
     div.classList.add('test');
@@ -37,7 +27,7 @@ test('add a vimeo video and append it to the "test" class div. Also, play it!', 
             // console.log('--------------');
             if (p.event === 'play') {
 
-                t.equal(p.player_id, 'testPlayerxczxczz');
+                t.equal(p.player_id, 'testPlayer');
                 t.end()
             }
         });
@@ -46,6 +36,8 @@ test('add a vimeo video and append it to the "test" class div. Also, play it!', 
 
 
     t.equal(div.childNodes[0], document.querySelector('#testPlayer'));
+
+    t.end();
 });
 
 
@@ -64,5 +56,15 @@ test('add a youtube video and append it to the "test2" class div. Then play it!'
     });
 
     t.equal(div.childNodes[0], document.querySelector('#testPlayer2'));
-    t.end();
+
+    console.log(tv);
+
+
+    tv.player.addEventListener('vcr:ready', function() {
+        tv.videoInstance.player.addEventListener('onStateChange', function() {
+            console.log('state changed!');
+        })
+        tv.play();
+        t.end();
+    });
 });

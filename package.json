@@ -5,19 +5,27 @@
   "main": "./index.js",
   "dependencies": {
     "generator-node": "^1.7.0",
-    "grunt-browserify": "^4.0.1"
+    "grunt-browserify": "^4.0.1",
+    "grunt-lib-phantomjs": "^0.7.1",
+    "grunt-serve": "^0.1.6"
   },
   "devDependencies": {
     "browserify": "11.0.0",
-    "queso": "1.0.0",
-    "tape": "4.2.2",
+    "coverify": "^1.4.1",
+    "covert": "^1.1.0",
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-nodeunit": "~0.4.1",
-    "grunt-contrib-uglify": "~0.5.0"
+    "grunt-contrib-uglify": "~0.5.0",
+    "grunt-http-server": "^1.13.0",
+    "grunt-shell": "^1.1.2",
+    "queso": "1.0.0",
+    "tap-spec": "^4.1.1",
+    "tape": "4.2.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt | tap-spec",
+    "cover": "istanbul cover  tests/*.js"
   },
   "repository": {
     "type": "git",
