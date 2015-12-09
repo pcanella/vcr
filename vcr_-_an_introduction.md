@@ -1,2 +1,0 @@
-# VCR - An Introduction
-
