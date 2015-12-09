@@ -32,13 +32,35 @@
 
      player: null,
 
-     setListeners: function() {
+     config: '',
 
+     setListeners: function() {
+         var self = this,
+             events = ['play', 'pause', 'seek', 'volume', 'mute', 'stop'];
+
+         for (var i = 0; i < events.length; i++) {
+             makeListener(events[i]);
+         }
+
+         function makeListener(arg1) {
+             self.player.addEventListener('vcr:' + arg1, function() {
+                 self[arg1]();
+             });
+         }
+
+         //Event listener to start playing
+         this.player.addEventListener('vcr:play', function() {
+             self.play();
+         });
+
+         this.player.addEventListener('vcr:pause', function() {
+             self.pause();
+         });
      },
 
      set: function(config, options) {
          var url, element;
-
+         this.config = config;
          // if it's an object, then we know it doesn't have 
          if (config instanceof Object) {
              // If an element is given, then keep it, otherwise make up a vcr name and create the element!
@@ -80,17 +102,30 @@
              this.player = document.getElementById(this.el);
              // Initial viewport check
 
-             this.player.addEventListener('vcr:ready', function() {
-                 console.log('video ready!');
-                 if (options && options.scrollStop) {
-                     self.throttleVideo();
-                     var throttler = self.debounce(self.throttleVideo, 250);
-                     window.addEventListener('scroll', throttler);
-                 }
-             });
+             this.player.addEventListener('vcr:ready',
+                 function() {
+                     if (options && options.scrollStop) {
+                         self.throttleVideo();
+                         var throttler = self.debounce(self.throttleVideo, 250);
+                         window.addEventListener('scroll', throttler);
+                     }
+                 });
              playerParams = this.setOptions(playerParams);
 
              this.videoType.setPlayer(id, element, playerParams);
+             this.setListeners();
+             this.setConfigDimensions();
+
+
+         }
+     },
+
+     setConfigDimensions: function() {
+         if (this.player) {
+             var iframe = this.player,
+                 config = this.config;
+             iframe.width = (config.width && !iframe.width) ? config.width : iframe.width;
+             iframe.height = (config.height && !iframe.height) ? config.height : iframe.height;
          }
      },
 
@@ -99,7 +134,7 @@
          var c = config,
              // Create a new iframe!
              frame = document.createElement('iframe');
-         
+
          frame.id = el;
          frame = frame.outerHTML;
          // Probably could be refactored somehow. Suggestions welcome!
@@ -122,38 +157,50 @@
      },
 
      play: function() {
-         var e = new CustomEvent('vcr:play');
-         document.getElementById(this.el).dispatchEvent(e);
+         // Event emitted when played
+         this.fireEvent('playing');
          this.videoType.play();
      },
 
      pause: function() {
+         this.fireEvent('paused');
          this.videoType.pause();
      },
 
      seek: function(duration) {
+         this.fireEvent('sought');
          this.videoType.seek(duration);
      },
 
      volume: function(value) {
+         this.fireEvent('volumeChanged');
          this.videoType.setVolume(value);
      },
 
      currentTime: function() {
+         this.fireEvent('currentTime');
          return this.videoType.getCurrentTime();
      },
 
      duration: function() {
+         this.fireEvent('durationTime');
          return this.videoType.getDuration();
      },
 
      mute: function() {
+         this.fireEvent('muted');
          this.volume(0);
      },
 
      stop: function() {
+         this.fireEvent('stopped');
          var self = this;
          self.videoType.stop();
+     },
+
+     fireEvent: function(arg) {
+         var e = new CustomEvent('vcr:' + arg);
+         this.player.dispatchEvent(e);
      },
 
      // MIGHT PUT IN SEPARATE UTIL FOLDER
@@ -320,6 +367,10 @@ module.exports = parser;
 
      listenersAdded: false,
 
+     duration: '',
+
+     currentTime: '',
+
      play: function() {
          this.post('play');
      },
@@ -345,7 +396,7 @@ module.exports = parser;
      },
 
      getDuration: function() {
-         return this.post('getDuration', '');
+         return this.duration;
      },
 
      getCurrentTime: function() {
@@ -354,27 +405,39 @@ module.exports = parser;
          setTimeout(function() {
              self.post('getCurrentTime', '');
          }, 500);
+
+         return this.currentTime;
      },
 
      addAllListeners: function() {
          // Don't need these yet: 'loadProgress', 'playProgress'
-         var vEvents = ['play', 'pause', 'finish', 'seek'];
+         var self = this,
+             vEvents = ['play', 'pause', 'finish', 'seek', 'playProgress'];
 
          for (var i = 0; i < vEvents.length; i++) {
              this.post('addEventListener', vEvents[i]);
          }
 
          this.listenersAdded = true;
+
+         document.querySelector(this.iframeId).addEventListener('vcr:getCurrentData', function(e) {
+             debugger;
+             self.currentTime = e.detail.time;
+             self.duration = e.detail.duration;
+         });
+
      },
 
      onMessageReceived: function(event, instance) {
          var stuff = JSON.parse(event.data),
              eEvent;
+
          this.state = stuff.event;
          this.ready = true;
          if (stuff.event === 'ready') {
              this.addAllListeners();
              eEvent = new CustomEvent('vcr:ready', {
+                 test: 'lol',
                  detail: {
                      instance: instance
                  }
@@ -386,15 +449,23 @@ module.exports = parser;
              }, 1000);
 
              this.listenersAdded = true;
-         }
-         if (stuff && stuff.method === 'getCurrentTime') {
-             eEvent = new CustomEvent('vcr:getCurrentTime', {
+         } else if (stuff.event === 'playProgress') {
+             eEvent = new CustomEvent('vcr:getCurrentData', {
                  detail: {
-                     time: stuff.value
+                     time: stuff.data.seconds,
+                     duration: stuff.data.duration
                  }
              });
-             document.dispatchEvent(eEvent);
+             document.getElementById(stuff.player_id).dispatchEvent(eEvent);
          }
+         // if (stuff && stuff.method === 'getCurrentTime') {
+         //     eEvent = new CustomEvent('vcr:getCurrentTime', {
+         //         detail: {
+         //             time: stuff.value
+         //         }
+         //     });
+         //     document.dispatchEvent(eEvent);
+         // }
      },
 
      setPlayer: function(videoId, iframe_id, options) {
@@ -480,6 +551,10 @@ youtube.prototype = {
         return this.player.getCurrentTime();
     },
 
+    getDuration: function(){
+        return this.player.getDuration();
+    },
+
     setPlayer: function(videoId, iframe_id, options) {
         // First we add the API
         this.addAPI();
@@ -507,7 +582,10 @@ youtube.prototype = {
         document.getElementById(event.target.h.h.instance).dispatchEvent(eEvent);
     },
 
+    onStateChange: function(t){
+        var instance = document.getElementById(t.target.h.h.instance);
 
+    },
 
     onReady: function(vId) {
         var self = this;
@@ -515,7 +593,8 @@ youtube.prototype = {
             'videoId': vId,
             'instance': this.playerId,
             events: {
-                'onReady': self.onPlayerReady
+                'onReady': self.onPlayerReady,
+                'onStateChange': self.onStateChange
             }
         });
     },
