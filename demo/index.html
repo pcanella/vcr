@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>VCR - The Easiest Video Player API</title>
+    <meta name="description" content="VCR">
+    <meta name="author" content="SitePoint">
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <!-- Replace with logo? -->
+    <div class="navbar">
+        <div class="spacer pink"></div>
+        <div class="spacer orange"></div>
+        <div class="spacer yellow"></div>
+        <div class="spacer green"></div>
+        <div class="spacer blue"></div>
+        <h1 class="title">VCR</h1>
+        <div class="menu">
+            <ul>
+                <li>About</li>
+                <li>Getting Started</li>
+                <li>API Documentation</li>
+                <li>Github</li>
+            </ul>
+        </div>
+    </div>
+    <div class="wrapper">
+        <h2 class="subtitle">Plug 'n Play Vimeo and YouTube API</h2>
+        <div class="container">
+            <div class="plain_youtube">
+                <div>You can use a regular ole' iframe embed</div>
+                <iframe id="plainYoutube" width="560" height="315" src="https://www.youtube.com/embed/_iiOEQOtBlQ" frameborder="0" allowfullscreen></iframe>
+                <button class="btn" type="button">Just Push Play</button>
+                HTML:
+                <pre class="prettyprint">
+&lt;!-- file.html --&gt;
+&lt;iframe id="plainYoutube" width="560" height="315"
+ src="https://www.youtube.com/embed/aADExWV1bsM" 
+ frameborder="0" allowfullscreen&gt;
+ &lt;/iframe&gt;
+    </pre> JS:
+                <pre class="prettyprint">
+// Basic usage with existing iframe
+// I have omitted the button push logic here.
+
+var plainYoutube = new vcr({
+        el: 'plainYoutube'
+    })
+plainYoutube.player.addEventListener('vcr:ready',function(){
+    plainYoutube.play();
+});
+    </pre>
+            </div>
+            <div class="injectEmbed">
+                <div>Or you can just use a straight youtube or vimeo URL; no need to set anything! No markup required, we'll generate that.</div>
+                <button class="injectBtn green">Just Push Play</button>
+                JS:
+                <pre class="prettyprint">
+// No HTML iframe needed, it's prepended to .injectEmbed selector
+// I have omitted the button push logic here.
+
+var injectEmbed = new vcr({
+    //el: '' // el is optional, we'll generate one
+    url: 'https://vimeo.com/60821380',
+    prependTo: '.injectEmbed',
+    width: '560',
+    height: '315'
+});
+
+
+ injectEmbed.player.addEventListener('vcr:ready', function() {
+    injectEmbed.play();
+
+    // pause after ~5 seconds on each button click (in demo)
+    setTimeout(function() {
+        injectEmbed.pause();
+    }, 6000);
+});
+    </pre>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <script src="../lib/bundle.js"></script>
+    <script type="text/javascript" src="demo.js"></script>
+    </script>
+</body>
+
+</html>
