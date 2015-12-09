@@ -6,7 +6,7 @@
 @import url(https://fonts.googleapis.com/css?family=Handlee);
 body {
     /*background: #6a6c78;*/
-    background: #4E4E4E;
+    background: linear-gradient( rgba(17, 17, 19, 0.74), rgba(17, 17, 19, 0.74)), url('assets/plastic.png');
     /*font-family: 'Abel', sans-serif;*/
     font-family: 'Handlee', cursive;
     font-size: 18px;
@@ -29,23 +29,23 @@ body {
     color: #fffef7;
 }
 
-button{
-    display:block;
-    margin-top:20px;
-    margin-bottom:20px;
+button {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
     width: 150px;
     height: 40px;
     font-size: 16px;
     font-family: 'Helvetica', sans-serif;
-    border-radius:3px;
-    border:2px solid black;
-    font-weight:bold;
+    border-radius: 3px;
+    border: 2px solid black;
+    font-weight: bold;
 }
 
 .navbar {
     width: 100%;
-        background: #fffef7 url('assets/paper.png');
-
+    /*background: #fffef7 url('assets/paper.png');*/
+    background: linear-gradient( rgba(255, 254, 247, 0.25), rgba(255, 254, 247, 0.25)), url('assets/paper.png');
     position: absolute;
     left: 0;
     right: 0;
@@ -78,13 +78,13 @@ button{
     font-weight: bold;
 }
 
-.menu a{
-    text-decoration:none;
-    color:#4E4E4E;
+.menu a {
+    text-decoration: none;
+    color: #4E4E4E;
 }
 
-.menu a:hover{
-    text-decoration:underline;
+.menu a:hover {
+    text-decoration: underline;
 }
 
 .spacer {
@@ -92,6 +92,7 @@ button{
     display: inline-block;
     height: 75px;
     float: left;
+    opacity:0.9;
 }
 
 .pink {
@@ -114,21 +115,21 @@ button{
     background: #94cfc9;
 }
 
-
 .container {
     position: relative;
     width: 600px;
-    /*background-color: #fffef7;*/
-    background: #fffef7 url('assets/paper.png');
+    background: linear-gradient( rgba(255, 254, 247, 0.25), rgba(255, 254, 247, 0.25)), url('assets/paper.png');
+    /*background: #fffef7 url('assets/paper.png');*/
     margin: 0 auto;
     padding: 30px;
     border-radius: 5px;
     /*box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.29);*/
 }
 
-.container .textSnippet{
+.container .textSnippet {
     padding: 20px 0;
 }
+
 
 /*.container:before{
     content: "";
