@@ -20,10 +20,10 @@
         <h1 class="title">VCR</h1>
         <div class="menu">
             <ul>
-                <li>About</li>
-                <li>Getting Started</li>
-                <li>API Documentation</li>
-                <li>Github</li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Getting Started</a></li>
+                <li><a href="#">API Documentation</a></li>
+                <li><a href="https://github.com/pcanella/vcr">Github</a></li>
             </ul>
         </div>
     </div>
@@ -31,7 +31,7 @@
         <h2 class="subtitle">Plug 'n Play Vimeo and YouTube API</h2>
         <div class="container">
             <div class="plain_youtube">
-                <div>You can use a regular ole' iframe embed</div>
+                <div class="textSnippet">You can use a regular ole' iframe embed</div>
                 <iframe id="plainYoutube" width="560" height="315" src="https://www.youtube.com/embed/_iiOEQOtBlQ" frameborder="0" allowfullscreen></iframe>
                 <button class="btn" type="button">Just Push Play</button>
                 HTML:
@@ -55,7 +55,7 @@ plainYoutube.player.addEventListener('vcr:ready',function(){
     </pre>
             </div>
             <div class="injectEmbed">
-                <div>Or you can just use a straight youtube or vimeo URL; no need to set anything! No markup required, we'll generate that.</div>
+                <div class="textSnippet">Or you can just use a straight youtube or vimeo URL; no need to set anything! No markup required, we'll generate that.</div>
                 <button class="injectBtn green">Just Push Play</button>
                 JS:
                 <pre class="prettyprint">

@@ -78,6 +78,15 @@ button{
     font-weight: bold;
 }
 
+.menu a{
+    text-decoration:none;
+    color:#4E4E4E;
+}
+
+.menu a:hover{
+    text-decoration:underline;
+}
+
 .spacer {
     width: 30px;
     display: inline-block;
@@ -115,6 +124,10 @@ button{
     padding: 30px;
     border-radius: 5px;
     /*box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.29);*/
+}
+
+.container .textSnippet{
+    padding: 20px 0;
 }
 
 /*.container:before{
