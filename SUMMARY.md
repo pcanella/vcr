@@ -4,4 +4,5 @@
 * [Getting Started](getting_started.md)
 * [Javascript API](javascript_api.md)
    * Instantiate new VCR
+   * play()
 
