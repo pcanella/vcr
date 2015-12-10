@@ -48,13 +48,27 @@ var vcr = new vcr({
 // if you leave el blank, we generate an ID for you!
     'el': 'customId', 
     'url': 'https://www.youtube.com/watch?v=OQBMQ_2x8Pc',
-    'appendTo': '.whateverDiv'
+    'appendTo': '.whateverSelectorYouWant'
 })
 
 ```
+Note: This will work with vimeo and youtube URLs only.
 
 
-##Wait a second, what about YouTube's URL parameters?
+##Wait a second, I want autoplay, can't I enable that with YouTube/Vimeo's URL parameters?
+
+Glad you asked! Of course you can. VCR accepts two objects, a config object and an options object. In order words:
+```
+// first object is configs: el, url and append/prepend functions 
+// (check the docs for more information)
+
+// The second is options; feel free to put your URL parameters here!
+var vcr = new vcr({el:'testPlayer'}, {parameters:{'autoplay': 1, rel:1}});
+```
+
+*For reference:*
+* [YouTube URL Parameters](https://developers.google.com/youtube/player_parameters?hl=en#Parameters)
+* [Vimeo URL Parameters](https://developer.vimeo.com/player/embedding#universal-parameters)
 
 
-
+**NOTE:** When instantiating a VCR instance, we will automatically add the correct url parameter to enable the proper JS API and add it to your site as necessary.
