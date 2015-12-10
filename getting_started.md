@@ -52,6 +52,9 @@ var vcr = new vcr({
 })
 
 ```
+
+and it will append to your desired selector. There are also `prependTo` `insertBefore` and `insertAfter` properties. 
+
 Note: This will work with vimeo and youtube URLs only.
 
 
