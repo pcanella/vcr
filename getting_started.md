@@ -76,3 +76,6 @@ var vcr = new vcr({el:'testPlayer'}, {parameters:{'autoplay': 1, rel:1}});
 
 
 **NOTE:** When instantiating a VCR instance, we will automatically add the correct url parameter to enable the proper JS API and add it to your site as necessary.
+
+
+**Need more? Check out our full API.**
