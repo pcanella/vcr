@@ -5,5 +5,5 @@
 * [Getting Started](getting_started.md)
 * [Javascript API](javascript_api.md)
    * [Instantiate new VCR](instantiate_new_vcr.md)
-   * play()
+   * [play()](play.md)
 
