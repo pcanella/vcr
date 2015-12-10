@@ -69,6 +69,7 @@ var vcr = new vcr({el:'testPlayer'}, {parameters:{'autoplay': 1, rel:1}});
 *For reference:*
 * [YouTube URL Parameters](https://developers.google.com/youtube/player_parameters?hl=en#Parameters)
 * [Vimeo URL Parameters](https://developer.vimeo.com/player/embedding#universal-parameters)
+* Complete list of valid config and options properties
 
 
 **NOTE:** When instantiating a VCR instance, we will automatically add the correct url parameter to enable the proper JS API and add it to your site as necessary.
