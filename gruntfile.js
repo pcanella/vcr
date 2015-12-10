@@ -4,12 +4,16 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         browserify: {
-            'lib/bundle.js': ['index.js'],
-            'test/bundle-test.js': ['test/vcr-test.js'],
-            // options: {
-            //     node: '',
-            //     transform: ['coverify']
-            // }
+            'resources/vcr.js': ['index.js'],
+            'test/bundle-test.js': ['test/vcr-test.js']
+        },
+
+        uglify: {
+            my_target: {
+                files: {
+                    'resources/vcr.min.js': ['resources/vcr.js']
+                }
+            }
         },
 
         shell: {
@@ -18,7 +22,7 @@ module.exports = function(grunt) {
             },
             target: {
                 // command: 'phantomjs tasks/phantom.js'
-                command: 'phantomjs tasks/phantom.js',
+                command: 'phantomjs tasks/phantom.js'
             }
         },
 
@@ -51,15 +55,12 @@ module.exports = function(grunt) {
             }
 
         }
-
-
-
-
     });
 
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-http-server');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.registerTask('default', ['browserify', 'http-server', 'shell']);
+    grunt.registerTask('default', ['browserify', 'uglify', 'http-server', 'shell']);
 }

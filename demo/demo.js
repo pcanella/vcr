@@ -8,7 +8,7 @@
         injectEmbed = new vcr({
             //el: '' // el is optional, we'll generate one
             url: 'https://vimeo.com/60821380',
-            prependTo: '.injectEmbed',
+            appendTo: '.embed_here',
             width: '560',
             height: '315'
         });

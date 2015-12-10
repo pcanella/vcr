@@ -421,7 +421,6 @@ module.exports = parser;
          this.listenersAdded = true;
 
          document.querySelector(this.iframeId).addEventListener('vcr:getCurrentData', function(e) {
-             debugger;
              self.currentTime = e.detail.time;
              self.duration = e.detail.duration;
          });
@@ -458,14 +457,6 @@ module.exports = parser;
              });
              document.getElementById(stuff.player_id).dispatchEvent(eEvent);
          }
-         // if (stuff && stuff.method === 'getCurrentTime') {
-         //     eEvent = new CustomEvent('vcr:getCurrentTime', {
-         //         detail: {
-         //             time: stuff.value
-         //         }
-         //     });
-         //     document.dispatchEvent(eEvent);
-         // }
      },
 
      setPlayer: function(videoId, iframe_id, options) {
@@ -582,6 +573,7 @@ youtube.prototype = {
         document.getElementById(event.target.h.h.instance).dispatchEvent(eEvent);
     },
 
+    // TODO: when state changes, fire event!
     onStateChange: function(t){
         var instance = document.getElementById(t.target.h.h.instance);
 
