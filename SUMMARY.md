@@ -9,4 +9,5 @@
    * pause()
    * volume()
    * currentTime()
+   * seek()
 
