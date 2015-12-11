@@ -37,8 +37,13 @@ Otherwise, a config object is used with the following parameters:
     **Optional (but strongly recommended)**: If you are instantiating a new iframe from scratch, and you wish to append to a selector or element. 
     
     *Note: (must have # or . if an ID or class)*
+    
+    
+### Options
 
-```
+Options are any player URL parameter supplied by YouTube and Vimeo's embed APIs. It is a JS object that looks like the example below. 
+
+```javascript
 // Full example
 var options = {
     'autoplay':1,
@@ -52,4 +57,11 @@ var config = {
 };
 
 var example = new vcr(config, options);
+```
+
+*Note: Once you instantiate successfully, the video will load via iframe from youtube or vimeo. After that a vcr:ready event will be fired when the video is fully loaded and ready to accept commands.*
+
+```javascript
+
+
 ```
