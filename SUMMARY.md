@@ -8,4 +8,5 @@
    * [play()](play.md)
    * pause()
    * volume()
+   * currentTime()
 
