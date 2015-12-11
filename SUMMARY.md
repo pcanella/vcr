@@ -11,4 +11,5 @@
    * currentTime()
    * seek()
    * duration()
+   * mute()
 
