@@ -10,4 +10,5 @@
    * volume()
    * currentTime()
    * seek()
+   * duration()
 
