@@ -72,6 +72,7 @@ The VCR API has several available properties you can use to make your code easie
 
 * **el**: the initial element selector string ( ex: "videoPlayer" as an ID). NOT the instance of the video player itself (which is vcr.player)
 * **player:** the instance of the vcr player's iframe. Used for event listeners on the VCR object. Example: `vcr.player.addEventListener`
+* **videoData:** Instance data for video. Response depends on whether it is YouTube or Vimeo.
 
 
 
