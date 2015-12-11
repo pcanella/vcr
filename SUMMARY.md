@@ -12,4 +12,5 @@
    * seek()
    * duration()
    * mute()
+   * stop()
 
