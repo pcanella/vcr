@@ -7,4 +7,5 @@
    * [Instantiate new VCR](instantiate_new_vcr.md)
    * [play()](play.md)
    * pause()
+   * volume()
 
