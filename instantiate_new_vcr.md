@@ -12,7 +12,6 @@ Type: Object or String (id selector)
 * 
 A String containing **only** iframe ID can be used if the embed `<iframe>` already exists. 
 
-*
 Otherwise, a config object is used with the following parameters:
 
 
@@ -41,7 +40,11 @@ Otherwise, a config object is used with the following parameters:
     
 ### Options
 
-Options are any player URL parameter supplied by YouTube and Vimeo's embed APIs. It is a JS object that looks like the example below. 
+Options are any player URL parameter supplied by YouTube and Vimeo's embed APIs. It is a JS object that looks like the full example below. 
+
+* [YouTube URL Parameters](https://developers.google.com/youtube/player_parameters?hl=en#Parameters)
+* [Vimeo URL Parameters](https://developer.vimeo.com/player/embedding#universal-parameters)
+
 
 ```javascript
 // Full example
@@ -61,7 +64,18 @@ var example = new vcr(config, options);
 
 *Note: Once you instantiate successfully, the video will load via iframe from youtube or vimeo. After that a vcr:ready event will be fired when the video is fully loaded and ready to accept commands.*
 
-```javascript
 
+### Player Properties
+
+The VCR API has several available properties you can use to make your code easier to manage, here are the properties available:
+
+
+* **el**: the initial element selector string ( ex: "videoPlayer" as an ID). NOT the instance of the video player itself (which is vcr.player)
+* **player:** the instance of the vcr player's iframe. Used for event listeners on the VCR object. Example: `vcr.player.addEventListener`
+
+
+
+```javascript
+var vcr = new vcr(config, options);
 
 ```
