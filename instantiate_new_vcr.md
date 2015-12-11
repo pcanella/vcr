@@ -39,10 +39,17 @@ Otherwise, a config object is used with the following parameters:
     *Note: (must have # or . if an ID or class)*
 
 ```
-var config = {
-    'el': 'selector' // Name of selector; current or new
-    'url': 'url of yt/vimeo vimeo'
-    '
+// Full example
+var options = {
+    'autoplay':1,
+    'rel': 1
+};
 
-}
+var config = {
+    'el': 'selector', // Name of selector; current or new
+    'url': 'url of yt/vimeo vimeo',
+    'insertBefore': '.selectorName'
+};
+
+var example = new vcr(config, options);
 ```
