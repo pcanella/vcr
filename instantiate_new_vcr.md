@@ -1,10 +1,10 @@
 # VCR Constructor
 
+```javascript
+// Constructor Basic example
+var vcr = new vcr(config, options);
 ```
-// Constructor
-new vcr(config, options);
-```
-
+***
 
 ### Config
 
@@ -37,7 +37,7 @@ Otherwise, a config object is used with the following parameters:
     
     *Note: (must have # or . if an ID or class)*
     
-    
+***
 ### Options
 
 Options are any player URL parameter supplied by YouTube and Vimeo's embed APIs. It is a JS object that looks like the full example below. 
@@ -64,7 +64,7 @@ var example = new vcr(config, options);
 
 *Note: Once you instantiate successfully, the video will load via iframe from youtube or vimeo. After that a vcr:ready event will be fired when the video is fully loaded and ready to accept commands.*
 
-
+***
 ### Player Properties
 
 The VCR API has several available properties you can use to make your code easier to manage, here are the properties available:
@@ -72,7 +72,8 @@ The VCR API has several available properties you can use to make your code easie
 
 * **el**: the initial element selector string ( ex: "videoPlayer" as an ID). NOT the instance of the video player itself (which is vcr.player)
 * **player:** the instance of the vcr player's iframe. Used for event listeners on the VCR object. Example: `vcr.player.addEventListener`
-* **videoData:** Instance data for video. Response depends on whether it is YouTube or Vimeo.
+* **videoData:** Instance data for video. Response data depends on whether it is YouTube or Vimeo.
+
 
 
 
