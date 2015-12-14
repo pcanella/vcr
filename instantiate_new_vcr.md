@@ -42,15 +42,24 @@ Otherwise, a config object is used with the following parameters:
 
 Options are any player URL parameter supplied by YouTube and Vimeo's embed APIs. It is a JS object that looks like the full example below. 
 
+####Parameters:
 * [YouTube URL Parameters](https://developers.google.com/youtube/player_parameters?hl=en#Parameters)
 * [Vimeo URL Parameters](https://developer.vimeo.com/player/embedding#universal-parameters)
 
+####Other Options:
+*More coming soon!*
+
+* `scrollStop`: This option allows you to get that Facebook or Twitter effect where the video pauses/plays depending on if the majority of the video is in the viewport.
+ 
+*Note: This is still experimental and may need some tweaks on VCR's end! Pull requests appreciated!*
 
 ```javascript
 // Full example
 var options = {
-    'autoplay':1,
-    'rel': 1
+    parameters:{
+        'autoplay':1,
+        'rel': 1
+    }
 };
 
 var config = {
