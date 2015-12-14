@@ -44,7 +44,7 @@ arguments:
 *The volume levels go from 0 (muted) to 100 (maximum) and are normalized amongst Vimeo/YouTube's APIs. *
 
 
-**Note: ** This will change the user's volume in EVERY YouTube or Vimeo video, not just the current instance. This is part of YouTube and Vimeo's settings in their respective APIs. Why? I have no idea...
+**Note: ** *This will change the user's volume in EVERY YouTube or Vimeo video, not just the current instance. This is part of YouTube and Vimeo's settings in their respective APIs. Why? I have no idea...*
 
 ```javascript
 video.player.addEventListener('vcr:ready', function(){
@@ -54,4 +54,10 @@ video.player.addEventListener('vcr:ready', function(){
 
 ##currentTime()
 
-Gets the current time of the video. 
+Returns the current time of the video. 
+
+```javascript
+video.player.addEventListener('vcr:ready', function(){
+    video.currentTime(); // returns 48.4 or similar
+});
+```
