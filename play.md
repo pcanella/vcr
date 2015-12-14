@@ -36,6 +36,22 @@ video.player.addEventListener('vcr:ready', function(){
 });
 ```
 
+##seek(number)
+
+Move the video forward or backward.
+
+arguments:
+*  `number` (Integer) - The amount of seconds you'd like to move the video forward. 
+
+
+```javascript
+video.player.addEventListener('vcr:ready', function(){
+    video.seek(157); // moves the player to the 157th second
+});
+```
+**Note: ** *In the future, this will allow both seconds and time notation (such as '1:45'). *
+
+
 ##volume(level)
 
 arguments:
