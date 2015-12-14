@@ -37,6 +37,9 @@ Otherwise, a config object is used with the following parameters:
     
     *Note: (must have # or . if an ID or class)*
     
+*  `width` (Integer) - The width of the video. Will be a `width` attribute set inside the HTML of the iframe code.
+*  `height` (Integer) - The height of the video. Will be a `width` attribute set inside the HTML of the iframe code.
+    
 ***
 ### Options
 
