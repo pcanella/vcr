@@ -51,3 +51,7 @@ video.player.addEventListener('vcr:ready', function(){
     video.volume(50);
 });
 ```
+
+##currentTime()
+
+Gets the current time of the video. 
