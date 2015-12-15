@@ -88,6 +88,9 @@ video.player.addEventListener('vcr:ready', function(){
 });
 ```
 
+**Note: ** *In the future, this will allow both seconds and time notation (such as '1:45'). *
+
+
 ##duration()
 
 Returns the duration of the video in seconds as a whole.
@@ -97,3 +100,5 @@ video.player.addEventListener('vcr:ready', function(){
     video.duration(); // returns 100.5 or similar
 });
 ```
+
+**Note: ** *In the future, this will allow both seconds and time notation (such as '1:45'). *
