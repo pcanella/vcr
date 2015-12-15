@@ -68,6 +68,16 @@ video.player.addEventListener('vcr:ready', function(){
 });
 ```
 
+##mute()
+Mutes the video. Equivalent to setting volume() to 0.
+
+```javascript
+video.player.addEventListener('vcr:ready', function(){
+    video.mute();
+});
+```
+
+
 ##currentTime()
 
 Returns the current time of the video. 
