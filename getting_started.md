@@ -13,7 +13,7 @@ Head on over to the [resources folder of the Github project](https://github.com/
 
 For basic examples that actually produce video output, [check out the main VCR page](http://pcanella.github.io/vcr/demo). For our purposes here, we'll just provide the code for a couple of base use cases.
 
-## Case 1: Basic YouTube Embed API with <iframe>
+## Case 1: Basic YouTube Embed API with `<iframe>`
 
 If we want to just grab an embed iframe from YouTube, simply go to YouTube, grab your favorite video embed ([not sure how?](https://support.google.com/youtube/answer/171780?hl=en)) and paste it into your document. 
 
@@ -25,15 +25,13 @@ frameborder="0" allowfullscreen></iframe>
 
 Then, using the power of your new VCR library, add an ID to your iframe (I've already done it above) and instantiate a new VCR object like so:
 
-```
+```javascript
 var vcr = new vcr('vcrPlayer');
 
 // Then, let's play the video!
 vcr.player.addEventListener('vcr:ready', function(){
     vcr.play();
 });
-
-
 ```
 
 and there! That's the really simple example. 
@@ -61,7 +59,7 @@ Note: This will work with vimeo and youtube URLs only.
 ##Wait a second, I want autoplay, can't I enable that with YouTube/Vimeo's URL parameters?
 
 Glad you asked! Of course you can. VCR accepts two objects, a config object and an options object. In order words:
-```
+```javascript
 // first object is configs: el, url and append/prepend functions 
 // (check the docs for more information)
 
