@@ -36,6 +36,15 @@ video.player.addEventListener('vcr:ready', function(){
 });
 ```
 
+## stop()
+Completely stops the video; sets it back 0:00 and pauses.
+
+```javascript
+video.player.addEventListener('vcr:ready', function(){
+    video.stop();
+});
+```
+
 ##seek(number)
 
 Move the video forward or backward.
