@@ -73,7 +73,7 @@ Mutes the video. Equivalent to setting volume() to 0.
 
 ```javascript
 video.player.addEventListener('vcr:ready', function(){
-    video.mute();
+    video.mute(); // mutes the video/sets the volume to 0
 });
 ```
 
