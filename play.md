@@ -1,4 +1,4 @@
-#Base functionality
+#API functionality
 
 Note: For all examples we are going to assume this is the iframe being used (assuming it's already appended to the DOM):
 
