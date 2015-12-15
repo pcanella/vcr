@@ -87,3 +87,13 @@ video.player.addEventListener('vcr:ready', function(){
     video.currentTime(); // returns 48.4 or similar
 });
 ```
+
+##duration()
+
+Returns the duration of the video in seconds as a whole.
+
+```javascript
+video.player.addEventListener('vcr:ready', function(){
+    video.duration(); // returns 100.5 or similar
+});
+```
