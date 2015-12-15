@@ -101,4 +101,4 @@ video.player.addEventListener('vcr:ready', function(){
 });
 ```
 
-**Note: ** *In the future, this will allow both seconds and time notation (such as '1:45'). *
+**Note: ** *In the future, this will allow both seconds and time notation (such as '14:45'). *
