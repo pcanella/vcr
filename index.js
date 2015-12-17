@@ -15,23 +15,20 @@
 
      parsedData: null,
 
-     videoType: null,
+     videoData: null,
 
      el: null,
-
-     videoInstance: '',
-
-     setVideoType: function() {
-         if (this.parsedData !== undefined) {
-             this.videoInstance = (this.parsedData.type === 'vimeo') ? new this.vimeo() : (this.parsedData.type === 'youtube') ? new this.youtube() : '';
-         }
-
-         return this.videoInstance;
-     },
 
      player: null,
 
      config: '',
+
+     setVideoType: function() {
+         if (this.parsedData !== undefined) {
+             this.videoData = (this.parsedData.type === 'vimeo') ? new this.vimeo() : (this.parsedData.type === 'youtube') ? new this.youtube() : '';
+         }
+     },
+
 
      setListeners: function() {
          var self = this,
@@ -58,6 +55,7 @@
      },
 
      set: function(config, options) {
+        debugger;
          var url, element;
          this.config = config;
          // if it's an object, then we know it doesn't have 
@@ -88,9 +86,9 @@
          // First we'll parse the data properly, then see if it's a youtube/ vimeo/html5 video. 
          this.parsedData = this.parser.parse(url);
 
-         this.videoType = this.setVideoType();
+         this.setVideoType();
 
-         var type = this.videoType,
+         var type = this.videoData,
              id = this.parsedData.id;
 
          if (options && options.autoplay) {
@@ -111,10 +109,9 @@
                  });
              playerParams = this.setOptions(playerParams);
 
-             this.videoType.setPlayer(id, element, playerParams);
+             this.videoData.setPlayer(id, element, playerParams);
              this.setListeners();
              this.setConfigDimensions();
-
 
          }
      },
@@ -158,32 +155,32 @@
      play: function() {
          // Event emitted when played
          this.fireEvent('playing');
-         this.videoType.play();
+         this.videoData.play();
      },
 
      pause: function() {
          this.fireEvent('paused');
-         this.videoType.pause();
+         this.videoData.pause();
      },
 
      seek: function(duration) {
          this.fireEvent('sought');
-         this.videoType.seek(duration);
+         this.videoData.seek(duration);
      },
 
      volume: function(value) {
          this.fireEvent('volumeChanged');
-         this.videoType.setVolume(value);
+         this.videoData.setVolume(value);
      },
 
      currentTime: function() {
          this.fireEvent('currentTime');
-         return this.videoType.getCurrentTime();
+         return this.videoData.getCurrentTime();
      },
 
      duration: function() {
          this.fireEvent('durationTime');
-         return this.videoType.getDuration();
+         return this.videoData.getDuration();
      },
 
      mute: function() {
@@ -194,7 +191,12 @@
      stop: function() {
          this.fireEvent('stopped');
          var self = this;
-         self.videoType.stop();
+         self.videoData.stop();
+     },
+
+     customFn: function(functionName, argArray){
+        argArray = (argArray.length > 0) ? argArray : [];
+        this.videoData.customFn(functionName, argArray);
      },
 
      fireEvent: function(arg) {
@@ -238,7 +240,6 @@
              rect = element.getBoundingClientRect(),
              oneThird = element.offsetHeight / 3,
              leftover = window.innerHeight - rect.top;
-         console.log('el:', el, 'top:', rect.top, 'bottom:', rect.bottom);
          return (rect.top > 0 && leftover > (element.offsetHeight / 2) || (rect.top < (element.offsetHeight - oneThird) && rect.bottom >= oneThird));
      }
 

@@ -1,0 +1,297 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Getting Started | Summary</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.5">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+        <link rel="stylesheet" href="./styles/website.css">
+    
+
+        
+    
+    
+    <link rel="next" href="./javascript_api.html" />
+    
+    
+    <link rel="prev" href="./vcr_-_an_introduction.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="2"
+        data-chapter-title="Getting Started"
+        data-filepath="getting_started.md"
+        data-basepath="."
+        data-revision="Tue Dec 15 2015 15:51:29 GMT-0800 (PST)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="./index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="vcr_-_an_introduction.html">
+            
+                
+                    <a href="./vcr_-_an_introduction.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        VCR - An Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="2" data-path="getting_started.html">
+            
+                
+                    <a href="./getting_started.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Getting Started
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="javascript_api.html">
+            
+                
+                    <a href="./javascript_api.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Javascript API
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="instantiate_new_vcr.html">
+            
+                
+                    <a href="./instantiate_new_vcr.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Instantiate new VCR
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="play.html">
+            
+                
+                    <a href="./play.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        API Functions
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="./" >Summary</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="getting-started">Getting Started</h1>
+<p>First things first, you&apos;ll definitely need to download the VCR Javascript file. It&apos;s important to note here that this is pure Javascript, NOT jQuery (a jQuery plugin is forthcoming). </p>
+<p>Head on over to the <a href="https://github.com/pcanella/vcr/tree/master/resources" target="_blank">resources folder of the Github project</a> and choose either the minified (recommended) version or the unminified. Then, include it into your page either using your favorite JS bundler (if using Node) or include it directly into your page:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">&quot;text/javascript&quot;</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">&quot;vcr.min.js&quot;</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</code></pre>
+<h1 id="basic-examples">Basic Examples</h1>
+<p>For basic examples that actually produce video output, <a href="http://pcanella.github.io/vcr/demo" target="_blank">check out the main VCR page</a>. For our purposes here, we&apos;ll just provide the code for a couple of base use cases.</p>
+<h2 id="case-1-basic-youtube-embed-api-with-iframe">Case 1: Basic YouTube Embed API with <code>&lt;iframe&gt;</code></h2>
+<p>If we want to just grab an embed iframe from YouTube, simply go to YouTube, grab your favorite video embed (<a href="https://support.google.com/youtube/answer/171780?hl=en" target="_blank">not sure how?</a>) and paste it into your document. </p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">iframe</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">&quot;vcrPlayer&quot;</span> <span class="hljs-attribute">width</span>=<span class="hljs-value">&quot;560&quot;</span> <span class="hljs-attribute">height</span>=<span class="hljs-value">&quot;315&quot;</span>
+<span class="hljs-attribute">src</span>=<span class="hljs-value">&quot;https://www.youtube.com/embed/IyuUWOnS9BY&quot;</span>
+<span class="hljs-attribute">frameborder</span>=<span class="hljs-value">&quot;0&quot;</span> <span class="hljs-attribute">allowfullscreen</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">iframe</span>&gt;</span>
+</code></pre>
+<p>Then, using the power of your new VCR library, add an ID to your iframe (I&apos;ve already done it above) and instantiate a new VCR object like so:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> vcr = <span class="hljs-keyword">new</span> vcr(<span class="hljs-string">&apos;vcrPlayer&apos;</span>);
+
+<span class="hljs-comment">// Then, let&apos;s play the video!</span>
+vcr.player.addEventListener(<span class="hljs-string">&apos;vcr:ready&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    vcr.play();
+});
+</code></pre>
+<p>and there! That&apos;s the really simple example. </p>
+<h1 id="i-am-too-lazy-to-get-the-embed-code-or-dont-want-to-embed-an-iframe-myself-is-there-another-way">I am too lazy to get the embed code, or don&apos;t want to embed an iframe myself, is there another way?</h1>
+<p>There SURE IS! With VCR, you can do something like </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> vcr = <span class="hljs-keyword">new</span> vcr({
+<span class="hljs-comment">// if you leave el blank, we generate an ID for you!</span>
+    <span class="hljs-string">&apos;el&apos;</span>: <span class="hljs-string">&apos;customId&apos;</span>, 
+    <span class="hljs-string">&apos;url&apos;</span>: <span class="hljs-string">&apos;https://www.youtube.com/watch?v=OQBMQ_2x8Pc&apos;</span>,
+    <span class="hljs-string">&apos;appendTo&apos;</span>: <span class="hljs-string">&apos;.whateverSelectorYouWant&apos;</span>
+})
+</code></pre>
+<p>and it will append to your desired selector. There are also <code>prependTo</code> <code>insertBefore</code> and <code>insertAfter</code> properties. </p>
+<p>Note: This will work with vimeo and youtube URLs only.</p>
+<h2 id="wait-a-second-i-want-autoplay-cant-i-enable-that-with-youtubevimeos-url-parameters">Wait a second, I want autoplay, can&apos;t I enable that with YouTube/Vimeo&apos;s URL parameters?</h2>
+<p>Glad you asked! Of course you can. VCR accepts two objects, a config object and an options object. In order words:</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// first object is configs: el, url and append/prepend functions </span>
+<span class="hljs-comment">// (check the docs for more information)</span>
+
+<span class="hljs-comment">// The second is options; feel free to put your URL parameters here!</span>
+<span class="hljs-keyword">var</span> vcr = <span class="hljs-keyword">new</span> vcr({el:<span class="hljs-string">&apos;testPlayer&apos;</span>}, {parameters:{<span class="hljs-string">&apos;autoplay&apos;</span>: <span class="hljs-number">1</span>, rel:<span class="hljs-number">1</span>}});
+</code></pre>
+<p><em>For reference:</em></p>
+<ul>
+<li><a href="https://developers.google.com/youtube/player_parameters?hl=en#Parameters" target="_blank">YouTube URL Parameters</a></li>
+<li><a href="https://developer.vimeo.com/player/embedding#universal-parameters" target="_blank">Vimeo URL Parameters</a></li>
+<li>Complete list of valid config and options properties</li>
+</ul>
+<p><strong>NOTE:</strong> When instantiating a VCR instance, we will automatically add the correct url parameter to enable the proper JS API and add it to your site as necessary.</p>
+<p><strong>Need more? Check out our full API.</strong></p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="./vcr_-_an_introduction.html" class="navigation navigation-prev " aria-label="Previous page: VCR - An Introduction"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="./javascript_api.html" class="navigation navigation-next " aria-label="Next page: Javascript API"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="gitbook/app.js"></script>
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
