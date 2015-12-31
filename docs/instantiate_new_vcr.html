@@ -1,0 +1,320 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Instantiate new VCR | Summary</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.5">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+        <link rel="stylesheet" href="./styles/website.css">
+    
+
+        
+    
+    
+    <link rel="next" href="./play.html" />
+    
+    
+    <link rel="prev" href="./javascript_api.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="3.1"
+        data-chapter-title="Instantiate new VCR"
+        data-filepath="instantiate_new_vcr.md"
+        data-basepath="."
+        data-revision="Tue Dec 15 2015 15:51:29 GMT-0800 (PST)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="./index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="vcr_-_an_introduction.html">
+            
+                
+                    <a href="./vcr_-_an_introduction.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        VCR - An Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="getting_started.html">
+            
+                
+                    <a href="./getting_started.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        Getting Started
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="javascript_api.html">
+            
+                
+                    <a href="./javascript_api.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        Javascript API
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.1" data-path="instantiate_new_vcr.html">
+            
+                
+                    <a href="./instantiate_new_vcr.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        Instantiate new VCR
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="play.html">
+            
+                
+                    <a href="./play.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        API Functions
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="./" >Summary</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="vcr-constructor">VCR Constructor</h1>
+<pre><code class="lang-javascript"><span class="hljs-comment">// Constructor Basic example</span>
+<span class="hljs-keyword">var</span> vcr = <span class="hljs-keyword">new</span> vcr(config, options);
+</code></pre>
+<hr>
+<h3 id="config">Config</h3>
+<p>Type: Object or String (id selector)</p>
+<ul>
+<li>A String containing <strong>only</strong> iframe ID can be used if the embed <code>&lt;iframe&gt;</code> already exists. </li>
+</ul>
+<p>Otherwise, a config object is used with the following parameters:</p>
+<ul>
+<li><p><code>el</code> (String) - The selector (ID only) of the iframe. No # beforehand (i.e. getElementById)</p>
+<p>  <strong>Required:</strong> if the iframe already exists. </p>
+<p>  <strong>Optional:</strong> if user is injecting/instantiating a new iframe.</p>
+<p>  <em>NOTE: If injecting and left blank, an ID will be created for you.</em> </p>
+</li>
+</ul>
+<ul>
+<li><p><code>url</code> (String) - The URL of the youtube or vimeo video. </p>
+<p>  <strong>Optional:</strong> if the iframe already exists.</p>
+<p>  <strong>Required:</strong> if user is injecting/instantiating a new iframe.</p>
+</li>
+<li><p><code>insertBefore, insertAfter, appendTo, prependTo</code> (String [Selector]) - These are all individual properties, but you will only need one.</p>
+<p>  <strong>Optional (but strongly recommended)</strong>: If you are instantiating a new iframe from scratch, and you wish to append to a selector or element. </p>
+<p>  <em>Note: (must have # or . if an ID or class)</em></p>
+</li>
+<li><p><code>width</code> (Integer) - The width of the video. Will be a <code>width</code> attribute set inside the HTML of the iframe code.</p>
+</li>
+<li><code>height</code> (Integer) - The height of the video. Will be a <code>width</code> attribute set inside the HTML of the iframe code.</li>
+</ul>
+<hr>
+<h3 id="options">Options</h3>
+<p>Options are any player URL parameter supplied by YouTube and Vimeo&apos;s embed APIs. It is a JS object that looks like the full example below. </p>
+<h4 id="parameters">Parameters:</h4>
+<ul>
+<li><a href="https://developers.google.com/youtube/player_parameters?hl=en#Parameters" target="_blank">YouTube URL Parameters</a></li>
+<li><a href="https://developer.vimeo.com/player/embedding#universal-parameters" target="_blank">Vimeo URL Parameters</a></li>
+</ul>
+<h4 id="other-options">Other Options:</h4>
+<p><em>More coming soon!</em></p>
+<ul>
+<li><code>scrollStop</code>: This option allows you to get that Facebook or Twitter effect where the video pauses/plays depending on if the majority of the video is in the viewport.</li>
+</ul>
+<p><em>Note: This is still experimental and may need some tweaks on VCR&apos;s end! Pull requests appreciated!</em></p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// Full example</span>
+<span class="hljs-keyword">var</span> options = {
+    parameters:{
+        <span class="hljs-string">&apos;autoplay&apos;</span>:<span class="hljs-number">1</span>,
+        <span class="hljs-string">&apos;rel&apos;</span>: <span class="hljs-number">1</span>
+    }
+};
+
+<span class="hljs-keyword">var</span> config = {
+    <span class="hljs-string">&apos;el&apos;</span>: <span class="hljs-string">&apos;selector&apos;</span>, <span class="hljs-comment">// Name of selector; current or new</span>
+    <span class="hljs-string">&apos;url&apos;</span>: <span class="hljs-string">&apos;url of yt/vimeo vimeo&apos;</span>,
+    <span class="hljs-string">&apos;insertBefore&apos;</span>: <span class="hljs-string">&apos;.selectorName&apos;</span>
+};
+
+<span class="hljs-keyword">var</span> example = <span class="hljs-keyword">new</span> vcr(config, options);
+</code></pre>
+<p><em>Note: Once you instantiate successfully, the video will load via iframe from youtube or vimeo. After that a vcr:ready event will be fired when the video is fully loaded and ready to accept commands.</em></p>
+<hr>
+<h3 id="player-properties">Player Properties</h3>
+<p>The VCR API has several available properties you can use to make your code easier to manage, here are the properties available:</p>
+<ul>
+<li><strong>el</strong>: the initial element selector string ( ex: &quot;videoPlayer&quot; as an ID). NOT the instance of the video player itself (which is vcr.player)</li>
+<li><strong>player:</strong> the instance of the vcr player&apos;s iframe. Used for event listeners on the VCR object. Example: <code>vcr.player.addEventListener</code></li>
+<li><strong>videoData:</strong> Instance data for video. Response data depends on whether it is YouTube or Vimeo.</li>
+</ul>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> vcr = <span class="hljs-keyword">new</span> vcr(config, options);
+</code></pre>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="./javascript_api.html" class="navigation navigation-prev " aria-label="Previous page: Javascript API"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="./play.html" class="navigation navigation-next " aria-label="Next page: API Functions"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="gitbook/app.js"></script>
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
