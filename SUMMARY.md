@@ -6,5 +6,5 @@
 * [Javascript API](javascript_api.md)
    * [Instantiate new VCR](instantiate_new_vcr.md)
    * [API Functions](play.md)
-* Javascript API
+* [Javascript API](javascript_api_chapter.md)
 
