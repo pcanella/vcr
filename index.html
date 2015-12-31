@@ -1,217 +1,92 @@
-<!DOCTYPE HTML>
-<html lang="en" >
-    
-    <head>
-        
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Introduction | Summary</title>
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="">
-        <meta name="generator" content="GitBook 2.6.5">
-        
-        
-        <meta name="HandheldFriendly" content="true"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
-        <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
-        
-    <link rel="stylesheet" href="gitbook/style.css">
-    
-        
-        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
-        
-    
-        
-        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
-        
-    
-        
-        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
-        
-    
-    
+<!doctype html>
+<html lang="en">
 
-        
-    
-    
-    <link rel="next" href="./vcr_-_an_introduction.html" />
-    
-    
+<head>
+    <meta charset="utf-8">
+    <title>VCR - The Easiest Video Player API</title>
+    <meta name="description" content="VCR">
+    <meta name="author" content="SitePoint">
+    <link rel="stylesheet" href="style.css" />
+</head>
 
-        
-    </head>
-    <body>
-        
-        
-    <div class="book"
-        data-level="0"
-        data-chapter-title="Introduction"
-        data-filepath="README.md"
-        data-basepath="."
-        data-revision="Thu Dec 31 2015 11:09:19 GMT-0800 (PST)"
-        data-innerlanguage="">
-    
+<body>
+    <!-- Replace with logo? -->
+    <div class="navbar">
+        <div class="spacer pink"></div>
+        <div class="spacer orange"></div>
+        <div class="spacer yellow"></div>
+        <div class="spacer green"></div>
+        <div class="spacer blue"></div>
+        <h1 class="title">VCR</h1>
+        <div class="menu">
+            <ul>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Getting Started</a></li>
+                <li><a href="#">API Documentation</a></li>
+                <li><a href="https://github.com/pcanella/vcr">Github</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="wrapper">
+        <h2 class="subtitle">Plug 'n Play Vimeo and YouTube API</h2>
+        <div class="container">
+            <div class="plain_youtube">
+                <div class="textSnippet">You can use a regular ole' iframe embed</div>
+                <iframe id="plainYoutube" width="560" height="315" src="https://www.youtube.com/embed/_iiOEQOtBlQ" frameborder="0" allowfullscreen></iframe>
+                <button class="btn" type="button">Just Push Play</button>
+                HTML:
+                <pre class="prettyprint">
+&lt;!-- file.html --&gt;
+&lt;iframe id="plainYoutube" width="560" height="315"
+ src="https://www.youtube.com/embed/aADExWV1bsM" 
+ frameborder="0" allowfullscreen&gt;
+ &lt;/iframe&gt;
+    </pre> JS:
+                <pre class="prettyprint">
+// Basic usage with existing iframe
+// I have omitted the button push logic here.
 
-<div class="book-summary">
-    <nav role="navigation">
-        <ul class="summary">
-            
-            
-            
-            
+var plainYoutube = new vcr({
+        el: 'plainYoutube'
+    })
+plainYoutube.player.addEventListener('vcr:ready',function(){
+    plainYoutube.play();
+});
+    </pre>
+            </div>
+            <div class="injectEmbed">
+                <div class="textSnippet">Or you can just use a straight youtube or vimeo URL; no need to set anything! No markup required, we'll generate that.</div>
+                <button class="injectBtn green">Just Push Play</button>
+                JS:
+                <pre class="prettyprint">
+// No HTML iframe needed, it's prepended to .injectEmbed selector
+// I have omitted the button push logic here.
 
-            
-
-            
-    
-        <li class="chapter active" data-level="0" data-path="index.html">
-            
-                
-                    <a href="./index.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                        Introduction
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter " data-level="1" data-path="vcr_-_an_introduction.html">
-            
-                
-                    <a href="./vcr_-_an_introduction.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>1.</b>
-                        
-                        VCR - An Introduction
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter " data-level="2" data-path="getting_started.html">
-            
-                
-                    <a href="./getting_started.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>2.</b>
-                        
-                        Getting Started
-                    </a>
-            
-            
-        </li>
-    
-        <li class="chapter " data-level="3" data-path="javascript_api_chapter.html">
-            
-                
-                    <a href="./javascript_api_chapter.html">
-                
-                        <i class="fa fa-check"></i>
-                        
-                            <b>3.</b>
-                        
-                        Javascript API
-                    </a>
-            
-            
-        </li>
-    
+var injectEmbed = new vcr({
+    //el: '' // el is optional, we'll generate one
+    url: 'https://vimeo.com/60821380',
+    prependTo: '.injectEmbed',
+    width: '560',
+    height: '315'
+});
 
 
-            
-            <li class="divider"></li>
-            <li>
-                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-                    Published with GitBook
-                </a>
-            </li>
-            
-        </ul>
-    </nav>
-</div>
+ injectEmbed.player.addEventListener('vcr:ready', function() {
+    injectEmbed.play();
 
-    <div class="book-body">
-        <div class="body-inner">
-            <div class="book-header" role="navigation">
-    <!-- Actions Left -->
-    
-
-    <!-- Title -->
-    <h1>
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >Summary</a>
-    </h1>
-</div>
-
-            <div class="page-wrapper" tabindex="-1" role="main">
-                <div class="page-inner">
-                
-                
-                    <section class="normal" id="section-">
-                    
-                        <h1 id="summary">Summary</h1>
-<ul>
-<li><a href="index.html">Introduction</a></li>
-<li><a href="vcr_-_an_introduction.html">VCR - An Introduction</a></li>
-<li><a href="getting_started.html">Getting Started</a></li>
-<li><a href="javascript_api.md">Javascript API</a><ul>
-<li><a href="instantiate_new_vcr.md">Instantiate new VCR</a></li>
-<li><a href="play.md">API Functions</a></li>
-</ul>
-</li>
-</ul>
-
-                    
-                    </section>
-                
-                
-                </div>
+    // pause after ~5 seconds on each button click (in demo)
+    setTimeout(function() {
+        injectEmbed.pause();
+    }, 6000);
+});
+    </pre>
             </div>
         </div>
-
-        
-        
-        <a href="./vcr_-_an_introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page: VCR - An Introduction"><i class="fa fa-angle-right"></i></a>
-        
     </div>
-</div>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <script src="../lib/bundle.js"></script>
+    <script type="text/javascript" src="demo.js"></script>
+    </script>
+</body>
 
-        
-<script src="gitbook/app.js"></script>
-
-    
-    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
-    
-
-    
-    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
-    
-
-    
-    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
-    
-
-    
-    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
-    
-
-<script>
-require(["gitbook"], function(gitbook) {
-    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
-    gitbook.start(config);
-});
-</script>
-
-        
-    </body>
-    
 </html>
