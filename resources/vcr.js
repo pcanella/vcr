@@ -53,10 +53,29 @@
          this.player.addEventListener('vcr:pause', function() {
              self.pause();
          });
+
+         this.player.addEventListener('vcr:stop', function() {
+             self.stop();
+         });
+
+         this.player.addEventListener('vcr:seek', function(e) {
+             self.seek(e.detail.seek);
+         });
+
+         this.player.addEventListener('vcr:volume', function(e) {
+             self.seek(e.detail.volume);
+         });
+
+         this.player.addEventListener('vcr:currentTime', function(e) {
+             return self.currentTime();
+         });
+
+         this.player.addEventListener('vcr:duration', function(e) {
+             return self.duration();
+         });
      },
 
      set: function(config, options) {
-        debugger;
          var url, element;
          this.config = config;
          // if it's an object, then we know it doesn't have 
@@ -195,9 +214,9 @@
          self.videoData.stop();
      },
 
-     customFn: function(functionName, argArray){
-        argArray = (argArray.length > 0) ? argArray : [];
-        this.videoData.customFn(functionName, argArray);
+     customFn: function(functionName, argArray) {
+         argArray = (argArray.length > 0) ? argArray : [];
+         this.videoData.customFn(functionName, argArray);
      },
 
      fireEvent: function(arg) {
@@ -274,39 +293,38 @@
 
 },{"./lib/parser":2,"./lib/vimeo":3,"./lib/yt":4,"queso":5}],2:[function(require,module,exports){
 'use strict';
-var queso = require('queso'),
-ytParams = [
-'autohide',
-'autoplay',
-'cc_load_policy',
-'color',
-'controls',
-'disablekb',
-'enablejsapi',
-'end',
-'fs',
-'h1',
-'iv_load_policy',
-'list',
-'listType',
-'loop',
-'modestbranding',
-'origin',
-'playerapiid',
-'playsinline',
-'rel',
-'showinfo',
-'start',
-'theme' ],
-vimParams = ['autoplay',
-'autopause',
-'badge',
-'byline',
-'color',
-'loop',
-'player_id',
-'portrait',
-'title'];
+// ytParams = [
+// 'autohide',
+// 'autoplay',
+// 'cc_load_policy',
+// 'color',
+// 'controls',
+// 'disablekb',
+// 'enablejsapi',
+// 'end',
+// 'fs',
+// 'h1',
+// 'iv_load_policy',
+// 'list',
+// 'listType',
+// 'loop',
+// 'modestbranding',
+// 'origin',
+// 'playerapiid',
+// 'playsinline',
+// 'rel',
+// 'showinfo',
+// 'start',
+// 'theme' ],
+// vimParams = ['autoplay',
+// 'autopause',
+// 'badge',
+// 'byline',
+// 'color',
+// 'loop',
+// 'player_id',
+// 'portrait',
+// 'title'];
 
 var parser = {
 
@@ -342,14 +360,13 @@ var parser = {
             return (url) ? url.match(/(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/) : '';
         } else {
             return false;
-            console.log('url is not valid');
         }
     }
 
 };
 
 module.exports = parser;
-},{"queso":5}],3:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
  /* global document, CustomEvent, window */
  'use strict';
 
@@ -441,7 +458,6 @@ module.exports = parser;
          if (stuff.event === 'ready') {
              this.addAllListeners();
              eEvent = new CustomEvent('vcr:ready', {
-                 test: 'lol',
                  detail: {
                      instance: instance
                  }
@@ -556,7 +572,6 @@ youtube.prototype = {
     },
 
     setPlayer: function(videoId, iframe_id, options) {
-        debugger;
         // First we add the API
         this.addAPI();
         // Then we get the proper URL
@@ -609,7 +624,6 @@ youtube.prototype = {
             ytAPI = 'https://www.youtube.com/iframe_api',
             existingScript = document.querySelector(existingScriptMatch);
         // Create the script itself; modified version of what Youtube/Google suggest
-        debugger;
         if (!existingScript) {
             apiScript = document.createElement('script');
             apiScript.src = ytAPI;

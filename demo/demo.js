@@ -20,10 +20,24 @@
 
  injectBtn.addEventListener('click', function() {
      if (injectReady === true) {
-         injectEmbed.play();
+
+          var pEvent = new CustomEvent('vcr:play');
+
+          injectEmbed.player.dispatchEvent(pEvent);
+
+         var eEvent = new CustomEvent('vcr:seek', {
+             detail: {
+                 seek: 45
+             }
+         });
+
+         // setting a timeout here to make SURE the video is loaded because vimeo's API can be finicky/buggy
+       
+
+
          // pause after ~5 seconds
          setTimeout(function() {
-            injectEmbed.pause();
+              injectEmbed.player.dispatchEvent(eEvent);
          }, 6000);
      }
  });
@@ -35,6 +49,6 @@
 
  plainBtn.addEventListener('click', function() {
      if (plainReady === true) {
-        plainYoutube.play();
+         plainYoutube.play();
      }
  });

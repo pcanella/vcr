@@ -52,10 +52,29 @@
          this.player.addEventListener('vcr:pause', function() {
              self.pause();
          });
+
+         this.player.addEventListener('vcr:stop', function() {
+             self.stop();
+         });
+
+         this.player.addEventListener('vcr:seek', function(e) {
+             self.seek(e.detail.seek);
+         });
+
+         this.player.addEventListener('vcr:volume', function(e) {
+             self.seek(e.detail.volume);
+         });
+
+         this.player.addEventListener('vcr:currentTime', function(e) {
+             return self.currentTime();
+         });
+
+         this.player.addEventListener('vcr:duration', function(e) {
+             return self.duration();
+         });
      },
 
      set: function(config, options) {
-        debugger;
          var url, element;
          this.config = config;
          // if it's an object, then we know it doesn't have 
@@ -194,9 +213,9 @@
          self.videoData.stop();
      },
 
-     customFn: function(functionName, argArray){
-        argArray = (argArray.length > 0) ? argArray : [];
-        this.videoData.customFn(functionName, argArray);
+     customFn: function(functionName, argArray) {
+         argArray = (argArray.length > 0) ? argArray : [];
+         this.videoData.customFn(functionName, argArray);
      },
 
      fireEvent: function(arg) {

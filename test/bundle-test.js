@@ -53,10 +53,29 @@
          this.player.addEventListener('vcr:pause', function() {
              self.pause();
          });
+
+         this.player.addEventListener('vcr:stop', function() {
+             self.stop();
+         });
+
+         this.player.addEventListener('vcr:seek', function(e) {
+             self.seek(e.detail.seek);
+         });
+
+         this.player.addEventListener('vcr:volume', function(e) {
+             self.seek(e.detail.volume);
+         });
+
+         this.player.addEventListener('vcr:currentTime', function(e) {
+             return self.currentTime();
+         });
+
+         this.player.addEventListener('vcr:duration', function(e) {
+             return self.duration();
+         });
      },
 
      set: function(config, options) {
-        debugger;
          var url, element;
          this.config = config;
          // if it's an object, then we know it doesn't have 
@@ -195,9 +214,9 @@
          self.videoData.stop();
      },
 
-     customFn: function(functionName, argArray){
-        argArray = (argArray.length > 0) ? argArray : [];
-        this.videoData.customFn(functionName, argArray);
+     customFn: function(functionName, argArray) {
+         argArray = (argArray.length > 0) ? argArray : [];
+         this.videoData.customFn(functionName, argArray);
      },
 
      fireEvent: function(arg) {
@@ -272,41 +291,40 @@
 
  module.exports = vcr;
 
-},{"./lib/parser":2,"./lib/vimeo":3,"./lib/yt":4,"queso":81}],2:[function(require,module,exports){
+},{"./lib/parser":2,"./lib/vimeo":3,"./lib/yt":4,"queso":82}],2:[function(require,module,exports){
 'use strict';
-var queso = require('queso'),
-ytParams = [
-'autohide',
-'autoplay',
-'cc_load_policy',
-'color',
-'controls',
-'disablekb',
-'enablejsapi',
-'end',
-'fs',
-'h1',
-'iv_load_policy',
-'list',
-'listType',
-'loop',
-'modestbranding',
-'origin',
-'playerapiid',
-'playsinline',
-'rel',
-'showinfo',
-'start',
-'theme' ],
-vimParams = ['autoplay',
-'autopause',
-'badge',
-'byline',
-'color',
-'loop',
-'player_id',
-'portrait',
-'title'];
+// ytParams = [
+// 'autohide',
+// 'autoplay',
+// 'cc_load_policy',
+// 'color',
+// 'controls',
+// 'disablekb',
+// 'enablejsapi',
+// 'end',
+// 'fs',
+// 'h1',
+// 'iv_load_policy',
+// 'list',
+// 'listType',
+// 'loop',
+// 'modestbranding',
+// 'origin',
+// 'playerapiid',
+// 'playsinline',
+// 'rel',
+// 'showinfo',
+// 'start',
+// 'theme' ],
+// vimParams = ['autoplay',
+// 'autopause',
+// 'badge',
+// 'byline',
+// 'color',
+// 'loop',
+// 'player_id',
+// 'portrait',
+// 'title'];
 
 var parser = {
 
@@ -342,14 +360,13 @@ var parser = {
             return (url) ? url.match(/(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/) : '';
         } else {
             return false;
-            console.log('url is not valid');
         }
     }
 
 };
 
 module.exports = parser;
-},{"queso":81}],3:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
  /* global document, CustomEvent, window */
  'use strict';
 
@@ -441,7 +458,6 @@ module.exports = parser;
          if (stuff.event === 'ready') {
              this.addAllListeners();
              eEvent = new CustomEvent('vcr:ready', {
-                 test: 'lol',
                  detail: {
                      instance: instance
                  }
@@ -556,7 +572,6 @@ youtube.prototype = {
     },
 
     setPlayer: function(videoId, iframe_id, options) {
-        debugger;
         // First we add the API
         this.addAPI();
         // Then we get the proper URL
@@ -609,7 +624,6 @@ youtube.prototype = {
             ytAPI = 'https://www.youtube.com/iframe_api',
             existingScript = document.querySelector(existingScriptMatch);
         // Create the script itself; modified version of what Youtube/Google suggest
-        debugger;
         if (!existingScript) {
             apiScript = document.createElement('script');
             apiScript.src = ytAPI;
@@ -824,7 +838,8 @@ var path = require('path');
 
 var commentRx = /^\s*\/(?:\/|\*)[@#]\s+sourceMappingURL=data:(?:application|text)\/json;(?:charset[:=]\S+;)?base64,(.*)$/mg;
 var mapFileCommentRx =
-  // //# sourceMappingURL=foo.js.map                       
+  //Example (Extra space between slashes added to solve Safari bug. Exclude space in production):
+  //     / /# sourceMappingURL=foo.js.map           
   /(?:\/\/[@#][ \t]+sourceMappingURL=([^\s'"]+?)[ \t]*$)|(?:\/\*[@#][ \t]+sourceMappingURL=([^\*]+?)[ \t]*(?:\*\/){1}[ \t]*$)/mg
 
 function decodeBase64(base64) {
@@ -975,7 +990,7 @@ Object.defineProperty(exports, 'mapFileCommentRegex', {
 });
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":55,"fs":53,"path":62}],7:[function(require,module,exports){
+},{"buffer":55,"fs":53,"path":63}],7:[function(require,module,exports){
 var parse = require('acorn').parse;
 var isArray = require('isarray');
 var objectKeys = require('object-keys');
@@ -8508,7 +8523,7 @@ function amdefine(module, requireFn) {
 module.exports = amdefine;
 
 }).call(this,require('_process'),"/node_modules/coverify/node_modules/source-map/node_modules/amdefine/amdefine.js")
-},{"_process":63,"path":62}],26:[function(require,module,exports){
+},{"_process":64,"path":63}],26:[function(require,module,exports){
 /*
 Copyright (c) 2014, Matteo Collina <hello@matteocollina.com>
 
@@ -8919,8 +8934,9 @@ var StringDecoder;
 
 util.inherits(Readable, Stream);
 
+var Duplex;
 function ReadableState(options, stream) {
-  var Duplex = require('./_stream_duplex');
+  Duplex = Duplex || require('./_stream_duplex');
 
   options = options || {};
 
@@ -8986,8 +9002,9 @@ function ReadableState(options, stream) {
   }
 }
 
+var Duplex;
 function Readable(options) {
-  var Duplex = require('./_stream_duplex');
+  Duplex = Duplex || require('./_stream_duplex');
 
   if (!(this instanceof Readable))
     return new Readable(options);
@@ -9831,7 +9848,7 @@ function indexOf (xs, x) {
 }
 
 }).call(this,require('_process'))
-},{"./_stream_duplex":29,"_process":63,"buffer":55,"core-util-is":34,"events":58,"inherits":35,"isarray":36,"process-nextick-args":37,"string_decoder/":38,"util":54}],32:[function(require,module,exports){
+},{"./_stream_duplex":29,"_process":64,"buffer":55,"core-util-is":34,"events":59,"inherits":35,"isarray":36,"process-nextick-args":37,"string_decoder/":38,"util":54}],32:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -10088,8 +10105,9 @@ function WriteReq(chunk, encoding, cb) {
   this.next = null;
 }
 
+var Duplex;
 function WritableState(options, stream) {
-  var Duplex = require('./_stream_duplex');
+  Duplex = Duplex || require('./_stream_duplex');
 
   options = options || {};
 
@@ -10197,8 +10215,9 @@ Object.defineProperty(WritableState.prototype, 'buffer', {
 }catch(_){}}());
 
 
+var Duplex;
 function Writable(options) {
-  var Duplex = require('./_stream_duplex');
+  Duplex = Duplex || require('./_stream_duplex');
 
   // Writable ctor is applied to Duplexes, though they're not
   // instanceof Writable, they're instanceof Readable.
@@ -10559,7 +10578,7 @@ function endWritable(stream, state, cb) {
   state.ended = true;
 }
 
-},{"./_stream_duplex":29,"buffer":55,"core-util-is":34,"events":58,"inherits":35,"process-nextick-args":37,"util-deprecate":39}],34:[function(require,module,exports){
+},{"./_stream_duplex":29,"buffer":55,"core-util-is":34,"events":59,"inherits":35,"process-nextick-args":37,"util-deprecate":39}],34:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -10670,7 +10689,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../../../../../../../grunt-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../grunt-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js":60}],35:[function(require,module,exports){
+},{"../../../../../../../../grunt-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js":61}],35:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -10721,7 +10740,7 @@ function nextTick(fn) {
 }
 
 }).call(this,require('_process'))
-},{"_process":63}],38:[function(require,module,exports){
+},{"_process":64}],38:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -11122,7 +11141,7 @@ function forEach (xs, f) {
 }
 
 }).call(this,require('_process'))
-},{"./_stream_readable":42,"./_stream_writable":44,"_process":63,"core-util-is":45,"inherits":46}],42:[function(require,module,exports){
+},{"./_stream_readable":42,"./_stream_writable":44,"_process":64,"core-util-is":45,"inherits":46}],42:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -12108,7 +12127,7 @@ function indexOf (xs, x) {
 }
 
 }).call(this,require('_process'))
-},{"_process":63,"buffer":55,"core-util-is":45,"events":58,"inherits":46,"isarray":47,"stream":77,"string_decoder/":48}],43:[function(require,module,exports){
+},{"_process":64,"buffer":55,"core-util-is":45,"events":59,"inherits":46,"isarray":47,"stream":78,"string_decoder/":48}],43:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12710,9 +12729,9 @@ function endWritable(stream, state, cb) {
 }
 
 }).call(this,require('_process'))
-},{"./_stream_duplex":41,"_process":63,"buffer":55,"core-util-is":45,"inherits":46,"stream":77}],45:[function(require,module,exports){
+},{"./_stream_duplex":41,"_process":64,"buffer":55,"core-util-is":45,"inherits":46,"stream":78}],45:[function(require,module,exports){
 arguments[4][34][0].apply(exports,arguments)
-},{"../../../../../../../../grunt-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js":60,"dup":34}],46:[function(require,module,exports){
+},{"../../../../../../../../grunt-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js":61,"dup":34}],46:[function(require,module,exports){
 arguments[4][35][0].apply(exports,arguments)
 },{"dup":35}],47:[function(require,module,exports){
 arguments[4][10][0].apply(exports,arguments)
@@ -12842,7 +12861,7 @@ module.exports.obj = through2(function (options, transform, flush) {
 })
 
 }).call(this,require('_process'))
-},{"_process":63,"readable-stream/transform":49,"util":80,"xtend":50}],52:[function(require,module,exports){
+},{"_process":64,"readable-stream/transform":49,"util":81,"xtend":50}],52:[function(require,module,exports){
 var split = require('split2');
 var through = require('through2');
 var combine = require('stream-combiner2');
@@ -12979,6 +12998,8 @@ arguments[4][53][0].apply(exports,arguments)
  */
 /* eslint-disable no-proto */
 
+'use strict'
+
 var base64 = require('base64-js')
 var ieee754 = require('ieee754')
 var isArray = require('isarray')
@@ -13061,8 +13082,10 @@ function Buffer (arg) {
     return new Buffer(arg)
   }
 
-  this.length = 0
-  this.parent = undefined
+  if (!Buffer.TYPED_ARRAY_SUPPORT) {
+    this.length = 0
+    this.parent = undefined
+  }
 
   // Common case.
   if (typeof arg === 'number') {
@@ -13193,6 +13216,10 @@ function fromJsonObject (that, object) {
 if (Buffer.TYPED_ARRAY_SUPPORT) {
   Buffer.prototype.__proto__ = Uint8Array.prototype
   Buffer.__proto__ = Uint8Array
+} else {
+  // pre-set for values that may exist in the future
+  Buffer.prototype.length = undefined
+  Buffer.prototype.parent = undefined
 }
 
 function allocate (that, length) {
@@ -13342,10 +13369,6 @@ function byteLength (string, encoding) {
   }
 }
 Buffer.byteLength = byteLength
-
-// pre-set for values that may exist in the future
-Buffer.prototype.length = undefined
-Buffer.prototype.parent = undefined
 
 function slowToString (encoding, start, end) {
   var loweredCase = false
@@ -14517,7 +14540,7 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":56,"ieee754":57,"isarray":61}],56:[function(require,module,exports){
+},{"base64-js":56,"ieee754":57,"isarray":58}],56:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -14730,6 +14753,13 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 }
 
 },{}],58:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],59:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -15032,9 +15062,9 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 arguments[4][35][0].apply(exports,arguments)
-},{"dup":35}],60:[function(require,module,exports){
+},{"dup":35}],61:[function(require,module,exports){
 /**
  * Determine if an object is Buffer
  *
@@ -15053,9 +15083,9 @@ module.exports = function (obj) {
     ))
 }
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 arguments[4][10][0].apply(exports,arguments)
-},{"dup":10}],62:[function(require,module,exports){
+},{"dup":10}],63:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -15283,7 +15313,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":63}],63:[function(require,module,exports){
+},{"_process":64}],64:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -15376,20 +15406,20 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 module.exports = require("./lib/_stream_duplex.js")
 
-},{"./lib/_stream_duplex.js":65}],65:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":66}],66:[function(require,module,exports){
 arguments[4][29][0].apply(exports,arguments)
-},{"./_stream_readable":67,"./_stream_writable":69,"core-util-is":70,"dup":29,"inherits":59,"process-nextick-args":71}],66:[function(require,module,exports){
+},{"./_stream_readable":68,"./_stream_writable":70,"core-util-is":71,"dup":29,"inherits":60,"process-nextick-args":72}],67:[function(require,module,exports){
 arguments[4][30][0].apply(exports,arguments)
-},{"./_stream_transform":68,"core-util-is":70,"dup":30,"inherits":59}],67:[function(require,module,exports){
+},{"./_stream_transform":69,"core-util-is":71,"dup":30,"inherits":60}],68:[function(require,module,exports){
 arguments[4][31][0].apply(exports,arguments)
-},{"./_stream_duplex":65,"_process":63,"buffer":55,"core-util-is":70,"dup":31,"events":58,"inherits":59,"isarray":61,"process-nextick-args":71,"string_decoder/":78,"util":54}],68:[function(require,module,exports){
+},{"./_stream_duplex":66,"_process":64,"buffer":55,"core-util-is":71,"dup":31,"events":59,"inherits":60,"isarray":62,"process-nextick-args":72,"string_decoder/":79,"util":54}],69:[function(require,module,exports){
 arguments[4][32][0].apply(exports,arguments)
-},{"./_stream_duplex":65,"core-util-is":70,"dup":32,"inherits":59}],69:[function(require,module,exports){
+},{"./_stream_duplex":66,"core-util-is":71,"dup":32,"inherits":60}],70:[function(require,module,exports){
 arguments[4][33][0].apply(exports,arguments)
-},{"./_stream_duplex":65,"buffer":55,"core-util-is":70,"dup":33,"events":58,"inherits":59,"process-nextick-args":71,"util-deprecate":72}],70:[function(require,module,exports){
+},{"./_stream_duplex":66,"buffer":55,"core-util-is":71,"dup":33,"events":59,"inherits":60,"process-nextick-args":72,"util-deprecate":73}],71:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -15500,21 +15530,21 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../../../insert-module-globals/node_modules/is-buffer/index.js")})
-},{"../../../../insert-module-globals/node_modules/is-buffer/index.js":60}],71:[function(require,module,exports){
+},{"../../../../insert-module-globals/node_modules/is-buffer/index.js":61}],72:[function(require,module,exports){
 arguments[4][37][0].apply(exports,arguments)
-},{"_process":63,"dup":37}],72:[function(require,module,exports){
+},{"_process":64,"dup":37}],73:[function(require,module,exports){
 arguments[4][39][0].apply(exports,arguments)
-},{"dup":39}],73:[function(require,module,exports){
+},{"dup":39}],74:[function(require,module,exports){
 module.exports = require("./lib/_stream_passthrough.js")
 
-},{"./lib/_stream_passthrough.js":66}],74:[function(require,module,exports){
+},{"./lib/_stream_passthrough.js":67}],75:[function(require,module,exports){
 arguments[4][40][0].apply(exports,arguments)
-},{"./lib/_stream_duplex.js":65,"./lib/_stream_passthrough.js":66,"./lib/_stream_readable.js":67,"./lib/_stream_transform.js":68,"./lib/_stream_writable.js":69,"dup":40}],75:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":66,"./lib/_stream_passthrough.js":67,"./lib/_stream_readable.js":68,"./lib/_stream_transform.js":69,"./lib/_stream_writable.js":70,"dup":40}],76:[function(require,module,exports){
 arguments[4][49][0].apply(exports,arguments)
-},{"./lib/_stream_transform.js":68,"dup":49}],76:[function(require,module,exports){
+},{"./lib/_stream_transform.js":69,"dup":49}],77:[function(require,module,exports){
 module.exports = require("./lib/_stream_writable.js")
 
-},{"./lib/_stream_writable.js":69}],77:[function(require,module,exports){
+},{"./lib/_stream_writable.js":70}],78:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -15643,16 +15673,16 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":58,"inherits":59,"readable-stream/duplex.js":64,"readable-stream/passthrough.js":73,"readable-stream/readable.js":74,"readable-stream/transform.js":75,"readable-stream/writable.js":76}],78:[function(require,module,exports){
+},{"events":59,"inherits":60,"readable-stream/duplex.js":65,"readable-stream/passthrough.js":74,"readable-stream/readable.js":75,"readable-stream/transform.js":76,"readable-stream/writable.js":77}],79:[function(require,module,exports){
 arguments[4][38][0].apply(exports,arguments)
-},{"buffer":55,"dup":38}],79:[function(require,module,exports){
+},{"buffer":55,"dup":38}],80:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -16242,7 +16272,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":79,"_process":63,"inherits":59}],81:[function(require,module,exports){
+},{"./support/isBuffer":80,"_process":64,"inherits":60}],82:[function(require,module,exports){
 'use strict';
 
 function stringify (query, amp) {
@@ -16263,7 +16293,7 @@ module.exports = {
   stringify: stringify
 };
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 (function (process){
 var defined = require('defined');
 var createDefaultStream = require('./lib/default_stream');
@@ -16409,7 +16439,7 @@ function createHarness (conf_) {
 }
 
 }).call(this,require('_process'))
-},{"./lib/default_stream":83,"./lib/results":84,"./lib/test":85,"_process":63,"defined":89,"through":110}],83:[function(require,module,exports){
+},{"./lib/default_stream":84,"./lib/results":85,"./lib/test":86,"_process":64,"defined":90,"through":111}],84:[function(require,module,exports){
 (function (process){
 var through = require('through');
 var fs = require('fs');
@@ -16444,7 +16474,7 @@ module.exports = function () {
 };
 
 }).call(this,require('_process'))
-},{"_process":63,"fs":53,"through":110}],84:[function(require,module,exports){
+},{"_process":64,"fs":53,"through":111}],85:[function(require,module,exports){
 (function (process){
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
@@ -16640,7 +16670,7 @@ function invalidYaml (str) {
 }
 
 }).call(this,require('_process'))
-},{"_process":63,"events":58,"function-bind":90,"has":91,"inherits":92,"object-inspect":93,"resumer":94,"through":110}],85:[function(require,module,exports){
+},{"_process":64,"events":59,"function-bind":91,"has":92,"inherits":93,"object-inspect":94,"resumer":95,"through":111}],86:[function(require,module,exports){
 (function (process,__dirname){
 var deepEqual = require('deep-equal');
 var defined = require('defined');
@@ -17138,7 +17168,7 @@ Test.skip = function (name_, _opts, _cb) {
 
 
 }).call(this,require('_process'),"/node_modules/tape/lib")
-},{"_process":63,"deep-equal":86,"defined":89,"events":58,"has":91,"inherits":92,"path":62,"string.prototype.trim":96}],86:[function(require,module,exports){
+},{"_process":64,"deep-equal":87,"defined":90,"events":59,"has":92,"inherits":93,"path":63,"string.prototype.trim":97}],87:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -17234,7 +17264,7 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-},{"./lib/is_arguments.js":87,"./lib/keys.js":88}],87:[function(require,module,exports){
+},{"./lib/is_arguments.js":88,"./lib/keys.js":89}],88:[function(require,module,exports){
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -17256,7 +17286,7 @@ function unsupported(object){
     false;
 };
 
-},{}],88:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -17267,14 +17297,14 @@ function shim (obj) {
   return keys;
 }
 
-},{}],89:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 module.exports = function () {
     for (var i = 0; i < arguments.length; i++) {
         if (arguments[i] !== undefined) return arguments[i];
     }
 };
 
-},{}],90:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 var ERROR_MESSAGE = 'Function.prototype.bind called on incompatible ';
 var slice = Array.prototype.slice;
 var toStr = Object.prototype.toString;
@@ -17324,14 +17354,14 @@ module.exports = function bind(that) {
 };
 
 
-},{}],91:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 var bind = require('function-bind');
 
 module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
 
-},{"function-bind":90}],92:[function(require,module,exports){
+},{"function-bind":91}],93:[function(require,module,exports){
 arguments[4][35][0].apply(exports,arguments)
-},{"dup":35}],93:[function(require,module,exports){
+},{"dup":35}],94:[function(require,module,exports){
 module.exports = function inspect_ (obj, opts, depth, seen) {
     if (!opts) opts = {};
     
@@ -17480,7 +17510,7 @@ function inspectString (str) {
     }
 }
 
-},{}],94:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 (function (process){
 var through = require('through');
 var nextTick = typeof setImmediate !== 'undefined'
@@ -17513,7 +17543,7 @@ module.exports = function (write, end) {
 };
 
 }).call(this,require('_process'))
-},{"_process":63,"through":110}],95:[function(require,module,exports){
+},{"_process":64,"through":111}],96:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -17528,7 +17558,7 @@ module.exports = function trim() {
 	return replace(replace(S, leftWhitespace, ''), rightWhitespace, '');
 };
 
-},{"es-abstract/es5":101,"function-bind":90}],96:[function(require,module,exports){
+},{"es-abstract/es5":102,"function-bind":91}],97:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -17548,7 +17578,7 @@ define(boundTrim, {
 
 module.exports = boundTrim;
 
-},{"./implementation":95,"./polyfill":108,"./shim":109,"define-properties":97,"function-bind":90}],97:[function(require,module,exports){
+},{"./implementation":96,"./polyfill":109,"./shim":110,"define-properties":98,"function-bind":91}],98:[function(require,module,exports){
 'use strict';
 
 var keys = require('object-keys');
@@ -17606,13 +17636,13 @@ defineProperties.supportsDescriptors = !!supportsDescriptors;
 
 module.exports = defineProperties;
 
-},{"foreach":98,"object-keys":99}],98:[function(require,module,exports){
+},{"foreach":99,"object-keys":100}],99:[function(require,module,exports){
 arguments[4][9][0].apply(exports,arguments)
-},{"dup":9}],99:[function(require,module,exports){
+},{"dup":9}],100:[function(require,module,exports){
 arguments[4][11][0].apply(exports,arguments)
-},{"./isArguments":100,"dup":11}],100:[function(require,module,exports){
+},{"./isArguments":101,"dup":11}],101:[function(require,module,exports){
 arguments[4][12][0].apply(exports,arguments)
-},{"dup":12}],101:[function(require,module,exports){
+},{"dup":12}],102:[function(require,module,exports){
 'use strict';
 
 var $isNaN = Number.isNaN || function (a) { return a !== a; };
@@ -17678,23 +17708,23 @@ var ES5 = {
 
 module.exports = ES5;
 
-},{"./helpers/isFinite":102,"./helpers/mod":103,"./helpers/sign":104,"es-to-primitive/es5":105,"is-callable":107}],102:[function(require,module,exports){
+},{"./helpers/isFinite":103,"./helpers/mod":104,"./helpers/sign":105,"es-to-primitive/es5":106,"is-callable":108}],103:[function(require,module,exports){
 var $isNaN = Number.isNaN || function (a) { return a !== a; };
 
 module.exports = Number.isFinite || function (x) { return typeof x === 'number' && !$isNaN(x) && x !== Infinity && x !== -Infinity; };
 
-},{}],103:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 module.exports = function mod(number, modulo) {
 	var remain = number % modulo;
 	return Math.floor(remain >= 0 ? remain : remain + modulo);
 };
 
-},{}],104:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 module.exports = function sign(number) {
 	return number >= 0 ? 1 : -1;
 };
 
-},{}],105:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 'use strict';
 
 var toStr = Object.prototype.toString;
@@ -17706,12 +17736,10 @@ var isCallable = require('is-callable');
 // https://es5.github.io/#x8.12
 var ES5internalSlots = {
 	'[[DefaultValue]]': function (O, hint) {
-		if (!hint) {
-			hint = toStr.call(O) === '[object Date]' ? String : Number;
-		}
+		var actualHint = hint || toStr.call(O) === '[object Date]' ? String : Number;
 
-		if (hint === String || hint === Number) {
-			var methods = hint === String ? ['toString', 'valueOf'] : ['valueOf', 'toString'];
+		if (actualHint === String || actualHint === Number) {
+			var methods = actualHint === String ? ['toString', 'valueOf'] : ['valueOf', 'toString'];
 			var value, i;
 			for (i = 0; i < methods.length; ++i) {
 				if (isCallable(O[methods[i]])) {
@@ -17732,25 +17760,26 @@ module.exports = function ToPrimitive(input, PreferredType) {
 	if (isPrimitive(input)) {
 		return input;
 	}
+	var preferredType = PreferredType;
 	if (arguments.length < 2) {
-		PreferredType = toStr.call(input) === '[object Date]' ? String : Number;
+		preferredType = toStr.call(input) === '[object Date]' ? String : Number;
 	}
-	if (PreferredType === String) {
+	if (preferredType === String) {
 		return String(input);
-	} else if (PreferredType === Number) {
+	} else if (preferredType === Number) {
 		return Number(input);
 	} else {
 		throw new TypeError('invalid PreferredType supplied');
 	}
-	return ES5internalSlots['[[DefaultValue]]'](input, PreferredType);
+	return ES5internalSlots['[[DefaultValue]]'](input, preferredType);
 };
 
-},{"./helpers/isPrimitive":106,"is-callable":107}],106:[function(require,module,exports){
+},{"./helpers/isPrimitive":107,"is-callable":108}],107:[function(require,module,exports){
 module.exports = function isPrimitive(value) {
 	return value === null || (typeof value !== 'function' && typeof value !== 'object');
 };
 
-},{}],107:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 'use strict';
 
 var constructorRegex = /\s*class /;
@@ -17786,7 +17815,7 @@ module.exports = function isCallable(value) {
 	return strClass === fnClass || strClass === genClass;
 };
 
-},{}],108:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 'use strict';
 
 var implementation = require('./implementation');
@@ -17800,7 +17829,7 @@ module.exports = function getPolyfill() {
 	return implementation;
 };
 
-},{"./implementation":95}],109:[function(require,module,exports){
+},{"./implementation":96}],110:[function(require,module,exports){
 'use strict';
 
 var define = require('define-properties');
@@ -17812,7 +17841,7 @@ module.exports = function shimStringTrim() {
 	return polyfill;
 };
 
-},{"./polyfill":108,"define-properties":97}],110:[function(require,module,exports){
+},{"./polyfill":109,"define-properties":98}],111:[function(require,module,exports){
 (function (process){
 var Stream = require('stream')
 
@@ -17924,7 +17953,7 @@ function through (write, end, opts) {
 
 
 }).call(this,require('_process'))
-},{"_process":63,"stream":77}],111:[function(require,module,exports){
+},{"_process":64,"stream":78}],112:[function(require,module,exports){
 'use strict';
 
 var test = require('tape');
@@ -17996,4 +18025,4 @@ test('add a youtube video and append it to the "test2" class div. Then play it!'
     });
 });
 
-},{"../index":1,"coverify":5,"coverify/parse":52,"tape":82}]},{},[111]);
+},{"../index":1,"coverify":5,"coverify/parse":52,"tape":83}]},{},[112]);
