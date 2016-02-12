@@ -37,6 +37,5 @@
     plainBtn.addEventListener('click', function() {
         if (plainReady === true) {
             plainYoutube.play();
-            console.log(plainYoutube.currentTime(), plainYoutube.duration())
         }
     });
