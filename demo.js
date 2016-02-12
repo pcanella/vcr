@@ -19,7 +19,6 @@
     });
 
     injectBtn.addEventListener('click', function() {
-        debugger;
         if (injectReady === true) {
             injectEmbed.play();
             // pause after ~5 seconds
