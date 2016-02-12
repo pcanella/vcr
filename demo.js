@@ -24,7 +24,6 @@
             // pause after ~5 seconds
             setTimeout(function() {
                 injectEmbed.pause();
-                console.log(injectEmbed.currentTime(), injectEmbed.duration())
             }, 6000);
         }
     });
