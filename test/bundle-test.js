@@ -595,7 +595,10 @@ youtube.prototype = {
                 }
             });
         document.dispatchEvent(yEvent);
-        document.getElementById(event.target.h.h.instance).dispatchEvent(eEvent);
+
+        var i = document.getElementById(event.target.h.j.instance);
+
+        i.dispatchEvent(eEvent);
     },
 
     // TODO: when state changes, fire event!
