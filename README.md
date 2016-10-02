@@ -7,3 +7,5 @@
    * [Instantiate new VCR](instantiate_new_vcr.md)
    * [API Functions](play.md)
 
+
+[MIT License](https://github.com/pcanella/vcr/blob/master/license.MD)
